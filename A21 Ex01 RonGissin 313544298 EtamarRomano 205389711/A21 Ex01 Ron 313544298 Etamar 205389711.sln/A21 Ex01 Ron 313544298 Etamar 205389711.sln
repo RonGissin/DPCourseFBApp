@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30523.141
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FBFormAppNewFeatures", "FBFormAppNewFeatures\FBFormAppNewFeatures.csproj", "{0C5D4161-6264-45A6-99F7-80FAB16121E2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0C5D4161-6264-45A6-99F7-80FAB16121E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C5D4161-6264-45A6-99F7-80FAB16121E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C5D4161-6264-45A6-99F7-80FAB16121E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C5D4161-6264-45A6-99F7-80FAB16121E2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F88B4755-8E9D-4830-8E02-71F5E958906A}
+	EndGlobalSection
+EndGlobal
