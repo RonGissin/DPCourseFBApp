@@ -11,30 +11,51 @@ namespace FBFormAppNewFeatures
     public class ApplicationManager
     {
         private ILoginClient m_loginClient;
+        private LoginForm m_LoginForm;
+        private ApplicationForm m_ApplicationForm;
 
         public ApplicationManager(ILoginClient i_loginClient)
         {
             m_loginClient = i_loginClient;
+            m_LoginForm = new LoginForm(m_loginClient);
+            m_ApplicationForm = new ApplicationForm();
         }
 
         public void RunApplication()
         {
-            DialogResult loginFormResult = DialogResult.Retry;
-            LoginForm loginForm = new LoginForm(m_loginClient);
+            LoginFormResult loginFormResult = ShowLoginForm();
+            ShowApplicationForm(loginFormResult);
+        }
 
-            while (loginFormResult == DialogResult.Retry)
+        private LoginFormResult ShowLoginForm()
+        {
+            DialogResult dialogResult = DialogResult.Retry;
+
+            while (dialogResult == DialogResult.Retry)
             {
-                loginForm.Dispose();
-                loginForm = new LoginForm(m_loginClient);
-                loginFormResult = loginForm.ShowDialog();
+                m_LoginForm.Dispose();
+                m_LoginForm = new LoginForm(m_loginClient);
+                dialogResult = m_LoginForm.ShowDialog();
             }
 
-            if (loginFormResult == DialogResult.OK)
+            LoginFormResult loginFormResult = new LoginFormResult
             {
-                User loggedInUser = loginForm.User;
-                string accessToken = loginForm.AccessToken;
-                loginForm.Dispose();
-                new ApplicationForm(loggedInUser, accessToken).ShowDialog();
+                DialogResult = m_LoginForm.DialogResult,
+                AccessToken = m_LoginForm.AccessToken,
+                User = m_LoginForm.User
+            };
+
+            m_LoginForm.Dispose();
+
+            return loginFormResult;
+        }
+
+        private void ShowApplicationForm(LoginFormResult loginFormResult)
+        {
+            if (loginFormResult.DialogResult == DialogResult.OK)
+            {
+                DialogResult dialogResult = m_ApplicationForm.InjectFormDataByUser(loginFormResult.User)
+                    .ShowDialog();
             }
         }
     }

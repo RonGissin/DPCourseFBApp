@@ -20,9 +20,13 @@ namespace FBFormAppNewFeatures
         
         private User m_User;
 
-        public ApplicationForm(User i_loggedInUser, string i_AccessToken)
+        public ApplicationForm()
         {
             InitializeComponent();
+        }
+
+        public ApplicationForm InjectFormDataByUser(User i_loggedInUser)
+        {
             m_User = i_loggedInUser;
             m_Groups = m_User.Groups;
             m_Albums = m_User.Albums;
@@ -32,6 +36,8 @@ namespace FBFormAppNewFeatures
             fetchFriendsListBox();
             fetchGroupsListBox();
             fetchProfilePicture();
+
+            return this;
         }
 
         private void fetchProfilePicture()
