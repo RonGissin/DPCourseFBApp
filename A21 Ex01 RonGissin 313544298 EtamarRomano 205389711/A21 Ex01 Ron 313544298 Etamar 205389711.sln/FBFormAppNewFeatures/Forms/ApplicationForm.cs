@@ -1,5 +1,6 @@
 ﻿using FacebookWrapper;
 using FacebookWrapper.ObjectModel;
+using FBFormAppNewFeatures.Forms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,68 +15,87 @@ namespace FBFormAppNewFeatures
 {
     public partial class ApplicationForm : Form
     {
-        private FacebookObjectCollection<Group> m_Groups;
-        private FacebookObjectCollection<Album> m_Albums;
-        private FacebookObjectCollection<User> m_Friends;
-        
-        private User m_User;
+        private User m_LoggedInUser;
+        private User m_AlbumsUser;
+        private AlbumPhotosForm m_AlbumPhotosForm;
 
-        public ApplicationForm()
+        public ApplicationForm(User i_LoggedInUser)
         {
+            m_LoggedInUser = InputGuard.CheckNullArgument(i_LoggedInUser, nameof(i_LoggedInUser));
+            m_AlbumsUser = m_LoggedInUser;
+            
             InitializeComponent();
+            InjectFormDataByUser();
+            CenterToScreen();
         }
 
-        public ApplicationForm InjectFormDataByUser(User i_loggedInUser)
+        private void InjectFormDataByUser()
         {
-            m_User = i_loggedInUser;
-            m_Groups = m_User.Groups;
-            m_Albums = m_User.Albums;
-            m_Friends = m_User.Friends;
-
-            fetchAlbumsListBox();
-            fetchFriendsListBox();
-            fetchGroupsListBox();
             fetchProfilePicture();
+            fetchUserAlbums();
+            HiLoggedUserLabel.Text = $"Hi, {m_LoggedInUser.Name}";
+            AlbumsLabel.Text = $"{m_LoggedInUser.Name}'s Albums";
+        }
 
-            return this;
+        private void fetchUserAlbums()
+        {
+            IEnumerable<Photo> albumCoverPhotos = m_AlbumsUser.Albums.Select(album => album.CoverPhoto);
+            IEnumerable<string> albumNames = m_AlbumsUser.Albums.Select(album => album.Name);
+
+            AlbumsListView.SetGrid(albumCoverPhotos, albumNames);
         }
 
         private void fetchProfilePicture()
         {
-            ProfilePictureBox.LoadAsync(m_User.PictureNormalURL);
+            ProfilePictureBox.LoadAsync(m_LoggedInUser.PictureNormalURL);
         }
 
-        private void fetchAlbumsListBox()
+        private void showAlbumPhotosForm()
         {
-            AlbumsListBox.Items.Clear();
-            AlbumsListBox.DisplayMember = nameof(Album.Name);
+            string albumToShowName = AlbumsListView.SelectedItems[0].SubItems[0].Text;
+            Album albumToShow = m_AlbumsUser.Albums.Where(album => album.Name.Equals(albumToShowName)).FirstOrDefault();
+            m_AlbumPhotosForm = new AlbumPhotosForm(albumToShow);
+            m_AlbumPhotosForm.ShowDialog();
+        }
 
-            foreach (Album album in m_Albums)
+        private void PostStatusLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void AlbumsListView_DoubleClick(object sender, EventArgs e)
+        {
+            Cursor = Cursors.WaitCursor;
+            showAlbumPhotosForm();
+            Cursor = Cursors.Default;
+        }
+
+        private void ChangeAlbumOwnerButton_Click(object sender, EventArgs e)
+        {
+            string potentialFriendName = ShowAlbumsOfTextBox.Text;
+            User potentialFriend = m_LoggedInUser.Friends.Where(friend => friend.Name.Contains(potentialFriendName)).FirstOrDefault();
+
+            if (potentialFriend != null)
             {
-                AlbumsListBox.Items.Add(album);
+                m_AlbumsUser = potentialFriend;
+                fetchUserAlbums();
+            }
+            else
+            {
+                MessageBox.Show($"The current user {m_LoggedInUser.Name} has no friend named {potentialFriendName}");
             }
         }
 
-        private void fetchFriendsListBox()
+        private void LogoutButton_Click(object sender, EventArgs e)
         {
-            FriendsListBox.Items.Clear();
-            FriendsListBox.DisplayMember = nameof(User.Name);
-
-            foreach (User friend in m_Friends)
-            {
-                FriendsListBox.Items.Add(friend);
-            }
+            DialogResult = DialogResult.Abort;
+            Dispose();
+            Close();
         }
 
-        private void fetchGroupsListBox()
+        private void AlbumsListView_SelectedIndexChanged(object sender, EventArgs e)
         {
-            GroupsListBox.Items.Clear();
-            GroupsListBox.DisplayMember = nameof(Group.Name);
 
-            foreach (Group group in m_Groups)
-            {
-                GroupsListBox.Items.Add(group);
-            }
         }
     }
 }

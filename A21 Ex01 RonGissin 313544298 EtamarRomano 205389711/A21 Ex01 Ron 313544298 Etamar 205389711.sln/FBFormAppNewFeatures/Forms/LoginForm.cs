@@ -15,8 +15,9 @@ namespace FBFormAppNewFeatures
 
         public LoginForm(ILoginClient loginClient)
         {
-            r_loginClient = loginClient;
+            r_loginClient = InputGuard.CheckNullArgument(loginClient, nameof(loginClient));
             InitializeComponent();
+            CenterToScreen();
         }
 
         private void LoginForm_Load(object sender, EventArgs e)

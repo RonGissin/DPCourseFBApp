@@ -35,10 +35,13 @@
             // ConnnectWithFacebookButton
             // 
             this.ConnnectWithFacebookButton.BackColor = System.Drawing.Color.Blue;
+            this.ConnnectWithFacebookButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.ConnnectWithFacebookButton.Font = new System.Drawing.Font("Rockwell", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ConnnectWithFacebookButton.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.ConnnectWithFacebookButton.Location = new System.Drawing.Point(141, 269);
+            this.ConnnectWithFacebookButton.Location = new System.Drawing.Point(79, 174);
+            this.ConnnectWithFacebookButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.ConnnectWithFacebookButton.Name = "ConnnectWithFacebookButton";
-            this.ConnnectWithFacebookButton.Size = new System.Drawing.Size(520, 58);
+            this.ConnnectWithFacebookButton.Size = new System.Drawing.Size(292, 37);
             this.ConnnectWithFacebookButton.TabIndex = 0;
             this.ConnnectWithFacebookButton.Text = "Login with Facebook";
             this.ConnnectWithFacebookButton.UseVisualStyleBackColor = false;
@@ -47,19 +50,24 @@
             // WelcomeLabel
             // 
             this.WelcomeLabel.AutoSize = true;
-            this.WelcomeLabel.Location = new System.Drawing.Point(194, 81);
+            this.WelcomeLabel.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.WelcomeLabel.Font = new System.Drawing.Font("Rockwell", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.WelcomeLabel.Location = new System.Drawing.Point(25, 76);
+            this.WelcomeLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.WelcomeLabel.Name = "WelcomeLabel";
-            this.WelcomeLabel.Size = new System.Drawing.Size(416, 32);
+            this.WelcomeLabel.Size = new System.Drawing.Size(402, 33);
             this.WelcomeLabel.TabIndex = 1;
-            this.WelcomeLabel.Text = "Welcome to the Facebook App !";
+            this.WelcomeLabel.Text = "Welcome to Facebook Pics !";
             // 
             // LoginForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.BackColor = System.Drawing.Color.PowderBlue;
+            this.ClientSize = new System.Drawing.Size(450, 290);
             this.Controls.Add(this.WelcomeLabel);
             this.Controls.Add(this.ConnnectWithFacebookButton);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "LoginForm";
             this.Text = "Login";
             this.Load += new System.EventHandler(this.LoginForm_Load);

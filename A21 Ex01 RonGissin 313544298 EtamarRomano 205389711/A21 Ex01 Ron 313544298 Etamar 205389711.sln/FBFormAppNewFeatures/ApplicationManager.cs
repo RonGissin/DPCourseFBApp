@@ -13,18 +13,22 @@ namespace FBFormAppNewFeatures
         private ILoginClient m_loginClient;
         private LoginForm m_LoginForm;
         private ApplicationForm m_ApplicationForm;
+        private bool m_ExitSignal;
 
         public ApplicationManager(ILoginClient i_loginClient)
         {
-            m_loginClient = i_loginClient;
-            m_LoginForm = new LoginForm(m_loginClient);
-            m_ApplicationForm = new ApplicationForm();
+            m_loginClient = InputGuard.CheckNullArgument(i_loginClient, nameof(i_loginClient));
+            m_ExitSignal = false;
         }
 
         public void RunApplication()
         {
-            LoginFormResult loginFormResult = ShowLoginForm();
-            ShowApplicationForm(loginFormResult);
+            while (!m_ExitSignal)
+            {
+                LoginFormResult loginFormResult = ShowLoginForm();
+                DialogResult appDialogResult = ShowApplicationForm(loginFormResult);
+                m_ExitSignal = appDialogResult == DialogResult.Cancel;
+            }
         }
 
         private LoginFormResult ShowLoginForm()
@@ -33,9 +37,9 @@ namespace FBFormAppNewFeatures
 
             while (dialogResult == DialogResult.Retry)
             {
-                m_LoginForm.Dispose();
                 m_LoginForm = new LoginForm(m_loginClient);
                 dialogResult = m_LoginForm.ShowDialog();
+                m_LoginForm.Dispose();
             }
 
             LoginFormResult loginFormResult = new LoginFormResult
@@ -45,18 +49,21 @@ namespace FBFormAppNewFeatures
                 User = m_LoginForm.User
             };
 
-            m_LoginForm.Dispose();
-
             return loginFormResult;
         }
 
-        private void ShowApplicationForm(LoginFormResult loginFormResult)
+        private DialogResult ShowApplicationForm(LoginFormResult loginFormResult)
         {
+            DialogResult dialogResult = DialogResult.OK;
+
             if (loginFormResult.DialogResult == DialogResult.OK)
             {
-                DialogResult dialogResult = m_ApplicationForm.InjectFormDataByUser(loginFormResult.User)
-                    .ShowDialog();
+                m_ApplicationForm = new ApplicationForm(loginFormResult.User);
+                dialogResult = m_ApplicationForm.ShowDialog();
+                m_ApplicationForm.Dispose();
             }
+
+            return dialogResult;
         }
     }
 }
