@@ -8,20 +8,29 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.ListView;
 
 namespace FBFormAppNewFeatures.Forms
 {
     public partial class AlbumPhotosForm : Form
     {
         private Album m_Album;
+        private ImageForm m_ImageForm;
+        private User m_LoggedInUser;
 
-        public AlbumPhotosForm(Album i_Album)
+        public AlbumPhotosForm(Album i_Album, User i_LoggedInUser)
         {
+            m_LoggedInUser = InputGuard.CheckNullArgument(i_LoggedInUser, nameof(i_LoggedInUser));
             m_Album = InputGuard.CheckNullArgument(i_Album, nameof(i_Album));
             Text = m_Album.Name;
             InitializeComponent();
             CenterToScreen();
-            SetAlbumToShow().WithAlbumLikes().WithAlbumTags().WithAlbumLocation().WithAlbumDescription();
+            InjectUserData();
+        }
+
+        public void InjectUserData()
+        {
+            SetAlbumToShow().WithAlbumLikes().WithAlbumLocation().WithAlbumDescription();
         }
 
         private AlbumPhotosForm WithAlbumDescription()
@@ -42,7 +51,7 @@ namespace FBFormAppNewFeatures.Forms
         {
             IEnumerable<string> taggedUsers = m_Album.Photos.SelectMany(photo => photo.Tags?.Select(tag => tag.User.Name));
 
-            if(taggedUsers != null)
+            if(taggedUsers.Count() > 0)
             {
                 foreach (string taggedUser in taggedUsers)
                 {
@@ -64,12 +73,27 @@ namespace FBFormAppNewFeatures.Forms
         private AlbumPhotosForm SetAlbumToShow()
         {
             AlbumPhotosListView.SetGrid(m_Album.Photos);
+            Text = m_Album.Name;
+           
             return this;
         }
 
-        private void label1_Click(object sender, EventArgs e)
+        private void AlbumPhotosListView_DoubleClick(object sender, EventArgs e)
         {
-
+            Cursor = Cursors.WaitCursor;
+            showPhotoForm();
+            Cursor = Cursors.Default;
         }
+
+        private void showPhotoForm()
+        {
+            var item = AlbumPhotosListView.SelectedItems[0];
+            Photo photoToShow = m_Album.Photos.ElementAt(item.ImageIndex);
+            m_ImageForm = new ImageForm(photoToShow, m_LoggedInUser);
+            m_ImageForm.ShowDialog();
+            m_ImageForm.Dispose();
+        }
+
+        
     }
 }

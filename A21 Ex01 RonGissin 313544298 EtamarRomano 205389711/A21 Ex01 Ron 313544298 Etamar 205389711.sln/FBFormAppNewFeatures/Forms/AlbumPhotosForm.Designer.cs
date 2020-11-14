@@ -53,6 +53,7 @@
             this.AlbumPhotosListView.Size = new System.Drawing.Size(623, 732);
             this.AlbumPhotosListView.TabIndex = 0;
             this.AlbumPhotosListView.UseCompatibleStateImageBehavior = false;
+            this.AlbumPhotosListView.DoubleClick += new System.EventHandler(this.AlbumPhotosListView_DoubleClick);
             // 
             // AlbumLikesLabel
             // 
@@ -64,7 +65,6 @@
             this.AlbumLikesLabel.Size = new System.Drawing.Size(129, 22);
             this.AlbumLikesLabel.TabIndex = 1;
             this.AlbumLikesLabel.Text = "Album Likes:";
-            this.AlbumLikesLabel.Click += new System.EventHandler(this.label1_Click);
             // 
             // NumAlbumLikesLabel
             // 
