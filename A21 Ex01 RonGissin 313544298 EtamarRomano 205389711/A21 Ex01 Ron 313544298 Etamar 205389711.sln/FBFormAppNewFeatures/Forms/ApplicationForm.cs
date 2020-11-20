@@ -1,15 +1,15 @@
-﻿using FacebookWrapper;
-using FacebookWrapper.ObjectModel;
+﻿using FacebookWrapper.ObjectModel;
+using FBAppCore;
+using FBAppCore.AppSettings;
+using FBAppCore.Login;
+using FBAppInfra.Validation;
 using FBFormAppNewFeatures.Forms;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace FBFormAppNewFeatures
@@ -21,19 +21,59 @@ namespace FBFormAppNewFeatures
         private AlbumPhotosForm m_AlbumPhotosForm;
         private BestFriendForm m_BestFriendForm;
         private UserMatcher m_UserMatcher;
+        private AppSettings m_AppSettings;
+        private string m_LastAccessToken;
+        private ISettingsFileHandler m_SettingsHandler;
 
-        public ApplicationForm(User i_LoggedInUser)
+        public ApplicationForm(LoginResultData i_LoginResultData, AppSettings i_AppSettings)
         {
-            m_LoggedInUser = InputGuard.CheckNullArgument(i_LoggedInUser, nameof(i_LoggedInUser));
+            m_LoggedInUser = InputGuard.CheckNullArgument(i_LoginResultData, nameof(i_LoginResultData)).User;
+            m_AppSettings = InputGuard.CheckNullArgument(i_AppSettings, nameof(i_AppSettings));
+            m_SettingsHandler = AppXmlSettingsHandler.Instance;
+            m_LastAccessToken = i_LoginResultData.AccessToken;
             m_AlbumsUser = m_LoggedInUser;
             m_UserMatcher = new UserMatcher();
-            
+
             InitializeComponent();
-            InjectUserData();
             CenterToScreen();
+            SetFormViewBySettings();
         }
 
-        public void InjectUserData()
+
+        protected override void OnShown(EventArgs e)
+        {
+            base.OnShown(e);
+            InjectUserData();
+        }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            base.OnFormClosing(e);
+
+            m_AppSettings.LastWindowSize = this.Size;
+            m_AppSettings.LastAccessToken = m_LastAccessToken;
+            m_AppSettings.RememberUser = this.RememberUserCheckBox.Checked;
+
+            try
+            {
+                m_SettingsHandler.SaveSettingsToFile(m_AppSettings);
+            }
+            catch
+            {
+                MessageBox.Show("Your settings couldn't be saved for some reason.. you will have to reconnect next time !");
+            }
+        }
+
+        private void SetFormViewBySettings()
+        {
+            if (m_AppSettings != null)
+            {
+                this.Size = m_AppSettings.LastWindowSize;
+                this.RememberUserCheckBox.Checked = m_AppSettings.RememberUser;
+            }
+        }
+
+        private void InjectUserData()
         {
             fetchProfilePicture();
             fetchUserAlbums();
@@ -50,6 +90,7 @@ namespace FBFormAppNewFeatures
                 .FirstOrDefault();
 
             MostLikedPhotoPictureBox.LoadAsync(mostLikedPhoto.PictureNormalURL);
+            MostLikedPhotoPictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
         }
 
         private void fetchUserAlbums()
@@ -129,7 +170,6 @@ namespace FBFormAppNewFeatures
                 bestFriend = m_LoggedInUser;
             }
             
-
             m_BestFriendForm = new BestFriendForm(bestFriend);
             m_BestFriendForm.ShowDialog();
         }

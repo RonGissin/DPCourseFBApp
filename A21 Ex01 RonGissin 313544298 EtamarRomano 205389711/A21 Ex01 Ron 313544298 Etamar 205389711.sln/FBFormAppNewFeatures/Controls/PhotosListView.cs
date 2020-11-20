@@ -1,4 +1,6 @@
 ﻿using FacebookWrapper.ObjectModel;
+using FBAppCore;
+using FBAppInfra;
 using System;
 using System.Collections.Generic;
 using System.Drawing;

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FBFormAppNewFeatures
+namespace FBAppCore
 {
     public class LikeHandler : ILikeHandler
     {

@@ -48,6 +48,7 @@
             this.FemaleCheckBox = new System.Windows.Forms.CheckBox();
             this.FindLoveButton = new System.Windows.Forms.Button();
             this.BestMatchPictureBox = new System.Windows.Forms.PictureBox();
+            this.RememberUserCheckBox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.ProfilePictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MostLikedPhotoPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BestMatchPictureBox)).BeginInit();
@@ -189,7 +190,7 @@
             // 
             this.LogoutButton.BackColor = System.Drawing.Color.LightYellow;
             this.LogoutButton.Font = new System.Drawing.Font("Rockwell", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LogoutButton.Location = new System.Drawing.Point(16, 231);
+            this.LogoutButton.Location = new System.Drawing.Point(16, 226);
             this.LogoutButton.Name = "LogoutButton";
             this.LogoutButton.Size = new System.Drawing.Size(141, 45);
             this.LogoutButton.TabIndex = 12;
@@ -258,12 +259,24 @@
             this.BestMatchPictureBox.TabIndex = 16;
             this.BestMatchPictureBox.TabStop = false;
             // 
+            // RememberUserCheckBox
+            // 
+            this.RememberUserCheckBox.AutoSize = true;
+            this.RememberUserCheckBox.Font = new System.Drawing.Font("Rockwell", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RememberUserCheckBox.Location = new System.Drawing.Point(16, 291);
+            this.RememberUserCheckBox.Name = "RememberUserCheckBox";
+            this.RememberUserCheckBox.Size = new System.Drawing.Size(169, 26);
+            this.RememberUserCheckBox.TabIndex = 17;
+            this.RememberUserCheckBox.Text = "Remember me";
+            this.RememberUserCheckBox.UseVisualStyleBackColor = true;
+            // 
             // ApplicationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.PowderBlue;
             this.ClientSize = new System.Drawing.Size(1317, 830);
+            this.Controls.Add(this.RememberUserCheckBox);
             this.Controls.Add(this.BestMatchPictureBox);
             this.Controls.Add(this.FemaleCheckBox);
             this.Controls.Add(this.MaleCheckBox);
@@ -313,5 +326,6 @@
         private System.Windows.Forms.CheckBox FemaleCheckBox;
         private System.Windows.Forms.Button FindLoveButton;
         private System.Windows.Forms.PictureBox BestMatchPictureBox;
+        private System.Windows.Forms.CheckBox RememberUserCheckBox;
     }
 }

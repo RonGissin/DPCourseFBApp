@@ -1,6 +1,6 @@
 ﻿using FacebookWrapper;
 
-namespace FBFormAppNewFeatures
+namespace FBAppCore.Login
 {
     public class FacebookLoginClient : ILoginClient
     {

@@ -1,4 +1,7 @@
 ﻿using FacebookWrapper.ObjectModel;
+using FBAppCore;
+using FBAppInfra;
+using FBAppInfra.Validation;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -30,8 +33,14 @@ namespace FBFormAppNewFeatures.Forms
             m_IsImageLiked = false;
 
             InitializeComponent();
-            InjectUserData();
             CenterToScreen();
+        }
+
+        protected override void OnShown(EventArgs e)
+        {
+            base.OnShown(e);
+
+            InjectUserData();
         }
 
         private void InjectUserData()

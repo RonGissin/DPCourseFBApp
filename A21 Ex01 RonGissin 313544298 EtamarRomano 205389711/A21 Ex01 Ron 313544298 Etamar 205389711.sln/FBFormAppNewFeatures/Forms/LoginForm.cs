@@ -1,5 +1,7 @@
 ﻿using FacebookWrapper;
 using FacebookWrapper.ObjectModel;
+using FBAppCore.Login;
+using FBAppInfra.Validation;
 using System;
 using System.Windows.Forms;
 

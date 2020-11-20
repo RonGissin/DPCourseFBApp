@@ -5,13 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FBFormAppNewFeatures
+namespace FBAppCore
 {
     public class UserMatcher
     {
         public User FindMatch(User i_UserToMatchTo, Func<User, bool> filterFunc)
         {
             User bestMatch;
+
             try
             {
                 bestMatch = i_UserToMatchTo.Albums

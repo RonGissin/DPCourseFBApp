@@ -6,11 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace FBFormAppNewFeatures
+namespace FBAppCore.Login
 {
-    public class LoginFormResult
+    public class LoginResultData
     {
-        public DialogResult DialogResult { get; set; }
+        public DialogResult LoginDialogResult { get; set; }
 
         public User User { get; set; }
 

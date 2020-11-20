@@ -1,4 +1,5 @@
 ﻿using FacebookWrapper.ObjectModel;
+using FBAppInfra.Validation;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -25,12 +26,18 @@ namespace FBFormAppNewFeatures.Forms
             Text = m_Album.Name;
             InitializeComponent();
             CenterToScreen();
-            InjectUserData();
         }
 
         public void InjectUserData()
         {
             SetAlbumToShow().WithAlbumLikes().WithAlbumLocation().WithAlbumDescription();
+        }
+
+        protected override void OnShown(EventArgs e)
+        {
+            base.OnShown(e);
+
+            InjectUserData();
         }
 
         private AlbumPhotosForm WithAlbumDescription()
