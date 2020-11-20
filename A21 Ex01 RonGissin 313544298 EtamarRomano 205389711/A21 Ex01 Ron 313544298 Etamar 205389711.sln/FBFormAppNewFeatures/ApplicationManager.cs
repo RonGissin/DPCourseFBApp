@@ -1,14 +1,9 @@
 ﻿using FacebookWrapper;
-using FacebookWrapper.ObjectModel;
 using FBAppCore.AppSettings;
 using FBAppCore.Login;
 using FBAppInfra.Validation;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace FBFormAppNewFeatures
@@ -32,7 +27,7 @@ namespace FBFormAppNewFeatures
             }
             catch (Exception exception)
             {
-                CreateFallbackSettings();
+                UseDefaultSettings();
             }
 
         }
@@ -61,11 +56,11 @@ namespace FBFormAppNewFeatures
             };
         }
 
-        private void CreateFallbackSettings()
+        private void UseDefaultSettings()
         {
             m_AppSettings = new AppSettings()
             {
-                LastWindowSize = new Size(1000, 1000),
+                LastWindowSize = new Size(900, 700),
                 LastAccessToken = string.Empty,
                 RememberUser = false
             };

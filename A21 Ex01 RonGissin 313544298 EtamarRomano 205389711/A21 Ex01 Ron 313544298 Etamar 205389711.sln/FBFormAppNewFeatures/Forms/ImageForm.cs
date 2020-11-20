@@ -1,17 +1,9 @@
 ﻿using FacebookWrapper.ObjectModel;
 using FBAppCore;
-using FBAppInfra;
 using FBAppInfra.Validation;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace FBFormAppNewFeatures.Forms
@@ -58,9 +50,57 @@ namespace FBFormAppNewFeatures.Forms
 
         private void ImageLikeButton_Click(object sender, EventArgs e)
         {
+            ToggleLikeUnlike();
+        }
+
+        private void richTextBox1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if(e.KeyChar == (char)Keys.Enter)
+            {
+                PostComment();
+            }
+        }
+
+
+        private void ImageForm_Load(object sender, EventArgs e)
+        {
+            if (isPhotoLikedByUser())
+            {
+                LikePictureBox.LoadAsync(c_LikeUrl);
+                m_IsImageLiked = true;
+            }
+            else
+            {
+                LikePictureBox.LoadAsync(c_UnlikeUrl);
+                m_IsImageLiked = false;
+            }
+        }
+
+        private void PostComment()
+        {
+            // FacebookWrapper.dll throws exception - commenting is deprecated.
             try
             {
-                if(!m_IsImageLiked)
+                m_Photo.Comment(ImageCommentBox.Text);
+            }
+            catch
+            {
+            }
+
+            ImageCommentBox.Clear();
+            ImageCommentBox.Font = new Font(ImageCommentBox.Font, FontStyle.Bold);
+            ImageCommentBox.Text = "Comment Posted !";
+            ImageCommentBox.Refresh();
+            Thread.Sleep(2000);
+            ImageCommentBox.Font = new Font(ImageCommentBox.Font, FontStyle.Regular);
+            ImageCommentBox.Clear();
+        }
+
+        private void ToggleLikeUnlike()
+        {
+            try
+            {
+                if (!m_IsImageLiked)
                 {
                     LikePictureBox.LoadAsync(c_UnlikeUrl);
                     LikePictureBox.Refresh();
@@ -75,43 +115,6 @@ namespace FBFormAppNewFeatures.Forms
             }
             catch
             {
-            }
-        }
-
-        private void richTextBox1_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if(e.KeyChar == (char)Keys.Enter)
-            {
-                // FacebookWrapper.dll throws exception - commenting is deprecated.
-                try
-                {
-                    m_Photo.Comment(ImageCommentBox.Text);
-                }
-                catch
-                {
-                }
-
-                ImageCommentBox.Clear();
-                ImageCommentBox.Font = new Font(ImageCommentBox.Font, FontStyle.Bold);
-                ImageCommentBox.Text = "Comment Posted !";
-                ImageCommentBox.Refresh();
-                Thread.Sleep(2000);
-                ImageCommentBox.Font = new Font(ImageCommentBox.Font, FontStyle.Regular);
-                ImageCommentBox.Clear();
-            }
-        }
-
-        private void ImageForm_Load(object sender, EventArgs e)
-        {
-            if (isPhotoLikedByUser())
-            {
-                LikePictureBox.LoadAsync(c_LikeUrl);
-                m_IsImageLiked = true;
-            }
-            else
-            {
-                LikePictureBox.LoadAsync(c_UnlikeUrl);
-                m_IsImageLiked = false;
             }
         }
     }

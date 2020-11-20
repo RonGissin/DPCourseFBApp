@@ -10,6 +10,7 @@ using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace FBFormAppNewFeatures
@@ -75,48 +76,22 @@ namespace FBFormAppNewFeatures
 
         private void InjectUserData()
         {
-            fetchProfilePicture();
-            fetchUserAlbums();
-            fetchMostLikedPhoto();
+            Thread profilePictureThread = new Thread(fetchProfilePicture); 
+            Thread userAlbumsThread = new Thread(fetchUserAlbums); 
+            Thread mostLikedPhotoThread = new Thread(fetchMostLikedPhoto);
+
+            profilePictureThread.Start();
+            userAlbumsThread.Start();
+            mostLikedPhotoThread.Start();
+
+            // fetchProfilePicture();
+            // fetchUserAlbums();
+            // fetchMostLikedPhoto();
+            
             HiLoggedUserLabel.Text = $"Hi, {m_LoggedInUser.FirstName}";
             AlbumsLabel.Text = $"{m_AlbumsUser.Name}'s Albums";
         }
 
-        private void fetchMostLikedPhoto()
-        {
-            Photo mostLikedPhoto = m_AlbumsUser.Albums
-                .SelectMany(album => album.Photos)
-                .OrderByDescending(photo => photo.LikedBy.Count())
-                .FirstOrDefault();
-
-            MostLikedPhotoPictureBox.LoadAsync(mostLikedPhoto.PictureNormalURL);
-            MostLikedPhotoPictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
-        }
-
-        private void fetchUserAlbums()
-        {
-            IEnumerable<Photo> albumCoverPhotos = m_AlbumsUser.Albums.Select(album => album.CoverPhoto);
-            IEnumerable<string> albumNames = m_AlbumsUser.Albums.Select(album => album.Name);
-
-            AlbumsListView.SetGrid(albumCoverPhotos, albumNames);
-        }
-
-        private void fetchProfilePicture()
-        {
-            GraphicsPath gp = new GraphicsPath();
-            gp.AddEllipse(0, 0, ProfilePictureBox.Width - 3, ProfilePictureBox.Height - 3);
-            Region region = new Region(gp);
-            ProfilePictureBox.Region = region;
-            ProfilePictureBox.LoadAsync(m_LoggedInUser.PictureNormalURL);
-        }
-
-        private void showAlbumPhotosForm()
-        {
-            string albumToShowName = AlbumsListView.SelectedItems[0].SubItems[0].Text;
-            Album albumToShow = m_AlbumsUser.Albums.Where(album => album.Name.Equals(albumToShowName)).FirstOrDefault();
-            m_AlbumPhotosForm = new AlbumPhotosForm(albumToShow, m_LoggedInUser);
-            m_AlbumPhotosForm.ShowDialog();
-        }
 
         private void AlbumsListView_DoubleClick(object sender, EventArgs e)
         {
@@ -201,6 +176,46 @@ namespace FBFormAppNewFeatures
 
             BestMatchPictureBox.LoadAsync(bestMatch.PictureNormalURL);
             BestMatchPictureBox.Refresh();
+        }
+
+        private void fetchMostLikedPhoto()
+        {
+            Photo mostLikedPhoto = m_AlbumsUser.Albums
+                .SelectMany(album => album.Photos)
+                .OrderByDescending(photo => photo.LikedBy.Count())
+                .FirstOrDefault();
+
+            if (mostLikedPhoto != null)
+            {
+                MostLikedPhotoPictureBox.LoadAsync(mostLikedPhoto.PictureNormalURL);
+            }
+
+            MostLikedPhotoPictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
+        }
+
+        private void fetchUserAlbums()
+        {
+            IEnumerable<Photo> albumCoverPhotos = m_AlbumsUser.Albums.Select(album => album.CoverPhoto);
+            IEnumerable<string> albumNames = m_AlbumsUser.Albums.Select(album => album.Name);
+
+            AlbumsListView.SetGrid(albumCoverPhotos, albumNames);
+        }
+
+        private void fetchProfilePicture()
+        {
+            GraphicsPath gp = new GraphicsPath();
+            gp.AddEllipse(0, 0, ProfilePictureBox.Width - 3, ProfilePictureBox.Height - 3);
+            Region region = new Region(gp);
+            ProfilePictureBox.Region = region;
+            ProfilePictureBox.LoadAsync(m_LoggedInUser.PictureNormalURL);
+        }
+
+        private void showAlbumPhotosForm()
+        {
+            string albumToShowName = AlbumsListView.SelectedItems[0].SubItems[0].Text;
+            Album albumToShow = m_AlbumsUser.Albums.Where(album => album.Name.Equals(albumToShowName)).FirstOrDefault();
+            m_AlbumPhotosForm = new AlbumPhotosForm(albumToShow, m_LoggedInUser);
+            m_AlbumPhotosForm.ShowDialog();
         }
     }
 }

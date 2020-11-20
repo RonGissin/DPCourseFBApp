@@ -2,14 +2,9 @@
 using FBAppInfra.Validation;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.ListView;
 
 namespace FBFormAppNewFeatures.Forms
 {
@@ -40,6 +35,13 @@ namespace FBFormAppNewFeatures.Forms
             InjectUserData();
         }
 
+        private void AlbumPhotosListView_DoubleClick(object sender, EventArgs e)
+        {
+            Cursor = Cursors.WaitCursor;
+            showPhotoForm();
+            Cursor = Cursors.Default;
+        }
+
         private AlbumPhotosForm WithAlbumDescription()
         {
             AlbumDescriptionData.Text = m_Album.Description;
@@ -56,7 +58,9 @@ namespace FBFormAppNewFeatures.Forms
 
         private AlbumPhotosForm WithAlbumTags()
         {
-            IEnumerable<string> taggedUsers = m_Album.Photos.SelectMany(photo => photo.Tags?.Select(tag => tag.User.Name));
+            IEnumerable<string> taggedUsers = m_Album.Photos
+                .SelectMany(photo => photo.Tags?
+                .Select(tag => tag.User.Name));
 
             if(taggedUsers.Count() > 0)
             {
@@ -85,13 +89,7 @@ namespace FBFormAppNewFeatures.Forms
             return this;
         }
 
-        private void AlbumPhotosListView_DoubleClick(object sender, EventArgs e)
-        {
-            Cursor = Cursors.WaitCursor;
-            showPhotoForm();
-            Cursor = Cursors.Default;
-        }
-
+       
         private void showPhotoForm()
         {
             var item = AlbumPhotosListView.SelectedItems[0];
@@ -100,7 +98,5 @@ namespace FBFormAppNewFeatures.Forms
             m_ImageForm.ShowDialog();
             m_ImageForm.Dispose();
         }
-
-        
     }
 }

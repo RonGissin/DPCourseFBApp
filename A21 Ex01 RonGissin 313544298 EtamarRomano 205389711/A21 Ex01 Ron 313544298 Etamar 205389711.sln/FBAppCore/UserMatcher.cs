@@ -1,9 +1,6 @@
 ﻿using FacebookWrapper.ObjectModel;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FBAppCore
 {
@@ -24,7 +21,7 @@ namespace FBAppCore
                 .FirstOrDefault()
                 .FirstOrDefault();
             }
-            catch (NullReferenceException exception)
+            catch (ArgumentNullException exception)
             {
                 // if no match found, return the matchee.
                 bestMatch = i_UserToMatchTo;
