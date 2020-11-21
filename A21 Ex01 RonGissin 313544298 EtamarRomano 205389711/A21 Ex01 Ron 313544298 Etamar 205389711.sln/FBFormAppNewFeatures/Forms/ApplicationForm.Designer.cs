@@ -2,7 +2,7 @@
 
 namespace FBAppUI.Forms
 {
-    partial class ApplicationForm
+    public partial class ApplicationForm
     {
         /// <summary>
         /// Required designer variable.
@@ -19,6 +19,7 @@ namespace FBAppUI.Forms
             {
                 components.Dispose();
             }
+
             base.Dispose(disposing);
         }
 
@@ -98,12 +99,12 @@ namespace FBAppUI.Forms
             this.ChangeAlbumOwnerButton.TabIndex = 4;
             this.ChangeAlbumOwnerButton.Text = "Apply";
             this.ChangeAlbumOwnerButton.UseVisualStyleBackColor = false;
-            this.ChangeAlbumOwnerButton.Click += new System.EventHandler(this.ChangeAlbumOwnerButton_Click);
+            this.ChangeAlbumOwnerButton.Click += new System.EventHandler(this.changeAlbumOwnerButton_Click);
             // 
             // AlbumsLabel
             // 
-            this.AlbumsLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.AlbumsLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.AlbumsLabel.AutoSize = true;
             this.AlbumsLabel.BackColor = System.Drawing.Color.LightYellow;
@@ -117,8 +118,8 @@ namespace FBAppUI.Forms
             // 
             // AlbumsListView
             // 
-            this.AlbumsListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.AlbumsListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.AlbumsListView.BackColor = System.Drawing.Color.LightYellow;
             this.AlbumsListView.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -130,7 +131,7 @@ namespace FBAppUI.Forms
             this.AlbumsListView.Size = new System.Drawing.Size(625, 604);
             this.AlbumsListView.TabIndex = 6;
             this.AlbumsListView.UseCompatibleStateImageBehavior = false;
-            this.AlbumsListView.DoubleClick += new System.EventHandler(this.AlbumsListView_DoubleClick);
+            this.AlbumsListView.DoubleClick += new System.EventHandler(this.albumsListView_DoubleClick);
             // 
             // HiLoggedUserLabel
             // 
@@ -161,6 +162,7 @@ namespace FBAppUI.Forms
             // BestFriendButton
             // 
             this.BestFriendButton.BackColor = System.Drawing.Color.LightYellow;
+            this.BestFriendButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.BestFriendButton.Font = new System.Drawing.Font("Rockwell", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BestFriendButton.Location = new System.Drawing.Point(320, 360);
             this.BestFriendButton.Name = "BestFriendButton";
@@ -168,7 +170,7 @@ namespace FBAppUI.Forms
             this.BestFriendButton.TabIndex = 9;
             this.BestFriendButton.Text = "Show me !";
             this.BestFriendButton.UseVisualStyleBackColor = false;
-            this.BestFriendButton.Click += new System.EventHandler(this.BestFriendButton_Click);
+            this.BestFriendButton.Click += new System.EventHandler(this.bestFriendButton_Click);
             // 
             // MostLikedPhotoLabel
             // 
@@ -191,6 +193,7 @@ namespace FBAppUI.Forms
             // LogoutButton
             // 
             this.LogoutButton.BackColor = System.Drawing.Color.LightYellow;
+            this.LogoutButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.LogoutButton.Font = new System.Drawing.Font("Rockwell", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LogoutButton.Location = new System.Drawing.Point(16, 226);
             this.LogoutButton.Name = "LogoutButton";
@@ -244,6 +247,7 @@ namespace FBAppUI.Forms
             // FindLoveButton
             // 
             this.FindLoveButton.BackColor = System.Drawing.Color.LightYellow;
+            this.FindLoveButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.FindLoveButton.Font = new System.Drawing.Font("Rockwell", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FindLoveButton.Location = new System.Drawing.Point(147, 595);
             this.FindLoveButton.Name = "FindLoveButton";
@@ -251,7 +255,7 @@ namespace FBAppUI.Forms
             this.FindLoveButton.TabIndex = 9;
             this.FindLoveButton.Text = "Find Out";
             this.FindLoveButton.UseVisualStyleBackColor = false;
-            this.FindLoveButton.Click += new System.EventHandler(this.FindLoveButton_Click);
+            this.FindLoveButton.Click += new System.EventHandler(this.findLoveButton_Click);
             // 
             // BestMatchPictureBox
             // 

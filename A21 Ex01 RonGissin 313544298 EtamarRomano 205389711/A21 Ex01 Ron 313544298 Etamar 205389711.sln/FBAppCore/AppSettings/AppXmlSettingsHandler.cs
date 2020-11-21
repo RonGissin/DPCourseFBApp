@@ -9,25 +9,25 @@ namespace FBAppCore.AppSettings
         { 
             get
             {
-                if (m_Instance == null)
+                if (s_Instance == null)
                 {
-                    lock (m_ObjLock)
+                    lock (sr_ObjLock)
                     {
-                        if (m_Instance == null)
+                        if (s_Instance == null)
                         {
-                            m_Instance = new AppXmlSettingsHandler();
+                            s_Instance = new AppXmlSettingsHandler();
                         }
                     }
                 }
 
-                return m_Instance;
+                return s_Instance;
             }
         }
 
-        private static AppXmlSettingsHandler m_Instance = null;
-        private static readonly object m_ObjLock = new object();
+        private const string k_XmlFilePath = @"C:\FBAppSettings.xml";
+        private static readonly object sr_ObjLock = new object();
+        private static AppXmlSettingsHandler s_Instance = null;
         private XmlSerializer m_Serializer;
-        private const string c_XmlFilePath = @"C:\FBAppSettings.xml";
 
         private AppXmlSettingsHandler()
         {
@@ -36,7 +36,7 @@ namespace FBAppCore.AppSettings
 
         public void SaveSettingsToFile(AppSettings i_AppSettings)
         {
-            using (Stream fileStream = new FileStream(c_XmlFilePath, FileMode.OpenOrCreate, FileAccess.ReadWrite))
+            using (Stream fileStream = new FileStream(k_XmlFilePath, FileMode.OpenOrCreate, FileAccess.ReadWrite))
             {
                 lock (fileStream)
                 {
@@ -51,7 +51,7 @@ namespace FBAppCore.AppSettings
         {
             AppSettings settings = null;
 
-            using (Stream fileStream = new FileStream(c_XmlFilePath, FileMode.OpenOrCreate, FileAccess.Read))
+            using (Stream fileStream = new FileStream(k_XmlFilePath, FileMode.OpenOrCreate, FileAccess.Read))
             {
                 settings = m_Serializer.Deserialize(fileStream) as AppSettings;
             }

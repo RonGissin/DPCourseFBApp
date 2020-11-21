@@ -1,28 +1,23 @@
-﻿using FacebookWrapper;
+﻿using System;
+using System.Windows.Forms;
+using FacebookWrapper;
 using FacebookWrapper.ObjectModel;
 using FBAppCore.Login;
 using FBAppInfra.Validation;
-using System;
-using System.Windows.Forms;
 
 namespace FBAppUI.Forms
 {
     public partial class LoginForm : Form
     {
         private readonly ILoginClient r_LoginClient;
-        private readonly string[] m_Permissions = {
+        private readonly string[] r_Permissions = 
+        {
             "public_profile",
-            // "email",
-            // "user_birthday",
             "user_age_range",
             "user_gender",
             "user_link",
             "user_tagged_places",
-            // "user_videos",
-            // "publish_to_groups",
-            // "groups_access_member_info",
             "user_friends",
-            // "user_events",
             "user_likes",
             "user_location",
             "user_photos",
@@ -34,23 +29,24 @@ namespace FBAppUI.Forms
 
         public string AccessToken { get; set; }
 
-        public LoginForm(ILoginClient loginClient)
+        public LoginForm(ILoginClient i_LoginClient)
         {
-            r_LoginClient = InputGuard.CheckNullArgument(loginClient, nameof(loginClient));
+            r_LoginClient = InputGuard.CheckNullArgument(i_LoginClient, nameof(i_LoginClient));
             InitializeComponent();
             CenterToScreen();
         }
 
-        private void LoginWithFacebookButton_Click(object sender, EventArgs e)
+        private void loginWithFacebookButton_Click(object i_Sender, EventArgs i_EventArgs)
         {
-            ExecuteFullLogin();
+            executeFullLogin();
         }
 
-        private void ExecuteFullLogin()
+        private void executeFullLogin()
         {
-            LoginResult loginResult = r_LoginClient.Login(m_Permissions);
-            User = loginResult.LoggedInUser;
-            AccessToken = loginResult.AccessToken;
+            LoginResult loginResult = r_LoginClient.Login(r_Permissions);
+
+            this.User = loginResult.LoggedInUser;
+            this.AccessToken = loginResult.AccessToken;
             LoginResult connectResult = r_LoginClient.Connect(AccessToken);
             this.DialogResult = DialogResult.OK;
             this.Close();

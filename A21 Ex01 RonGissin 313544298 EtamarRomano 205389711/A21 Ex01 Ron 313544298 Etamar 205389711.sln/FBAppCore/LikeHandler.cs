@@ -4,19 +4,19 @@ namespace FBAppCore
 {
     public class LikeHandler : ILikeHandler
     {
-        public bool IsLikedBy(PostedItem postedItem, User user)
+        public bool IsLikedBy(PostedItem i_PostedItem, User i_User)
         {
-            return postedItem.LikedBy.Contains(user);
+            return i_PostedItem.LikedBy.Contains(i_User);
         }
 
-        public void Like(PostedItem postedItem)
+        public void Like(PostedItem i_PostedItem)
         {
-            postedItem.Like();
+            i_PostedItem.Like();
         }
 
-        public void Unlike(PostedItem postedItem)
+        public void Unlike(PostedItem i_PostedItem)
         {
-            postedItem.Unlike();
+            i_PostedItem.Unlike();
         }
     }
 }

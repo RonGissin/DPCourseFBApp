@@ -2,7 +2,7 @@
 
 namespace FBAppUI.Forms
 {
-    partial class AlbumPhotosForm
+    public partial class AlbumPhotosForm
     {
         /// <summary>
         /// Required designer variable.
@@ -19,6 +19,7 @@ namespace FBAppUI.Forms
             {
                 components.Dispose();
             }
+
             base.Dispose(disposing);
         }
 
@@ -55,7 +56,7 @@ namespace FBAppUI.Forms
             this.AlbumPhotosListView.Size = new System.Drawing.Size(623, 732);
             this.AlbumPhotosListView.TabIndex = 0;
             this.AlbumPhotosListView.UseCompatibleStateImageBehavior = false;
-            this.AlbumPhotosListView.DoubleClick += new System.EventHandler(this.AlbumPhotosListView_DoubleClick);
+            this.AlbumPhotosListView.DoubleClick += new System.EventHandler(this.albumPhotosListView_DoubleClick);
             // 
             // AlbumLikesLabel
             // 

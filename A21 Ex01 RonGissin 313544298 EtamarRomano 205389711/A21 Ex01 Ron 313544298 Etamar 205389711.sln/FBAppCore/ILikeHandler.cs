@@ -4,9 +4,10 @@ namespace FBAppCore
 {
     public interface ILikeHandler
     {
-        bool IsLikedBy(PostedItem postedItem, User user);
-        void Like(PostedItem postedItem);
+        bool IsLikedBy(PostedItem i_PostedItem, User i_User);
 
-        void Unlike(PostedItem postedItem);
+        void Like(PostedItem i_PostedItem);
+
+        void Unlike(PostedItem i_PostedItem);
     }
 }

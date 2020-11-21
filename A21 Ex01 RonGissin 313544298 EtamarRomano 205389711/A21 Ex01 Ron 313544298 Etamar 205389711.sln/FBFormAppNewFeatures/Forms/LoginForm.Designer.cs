@@ -1,6 +1,6 @@
 ﻿namespace FBAppUI.Forms
 {
-    partial class LoginForm
+    public partial class LoginForm
     {
         /// <summary>
         /// Required designer variable.
@@ -17,6 +17,7 @@
             {
                 components.Dispose();
             }
+
             base.Dispose(disposing);
         }
 
@@ -45,7 +46,7 @@
             this.ConnnectWithFacebookButton.TabIndex = 0;
             this.ConnnectWithFacebookButton.Text = "Login with Facebook";
             this.ConnnectWithFacebookButton.UseVisualStyleBackColor = false;
-            this.ConnnectWithFacebookButton.Click += new System.EventHandler(this.LoginWithFacebookButton_Click);
+            this.ConnnectWithFacebookButton.Click += new System.EventHandler(this.loginWithFacebookButton_Click);
             // 
             // WelcomeLabel
             // 
@@ -81,4 +82,3 @@
         private System.Windows.Forms.Label WelcomeLabel;
     }
 }
-

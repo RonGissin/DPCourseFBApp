@@ -1,9 +1,4 @@
-﻿using FacebookWrapper.ObjectModel;
-using FBAppCore;
-using FBAppCore.AppSettings;
-using FBAppCore.Login;
-using FBAppInfra.Validation;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
@@ -11,11 +6,17 @@ using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
+using FacebookWrapper.ObjectModel;
+using FBAppCore;
+using FBAppCore.AppSettings;
+using FBAppCore.Login;
+using FBAppInfra.Validation;
 
 namespace FBAppUI.Forms
 {
-    public partial class ApplicationForm : Form
+    public partial class ApplicationForm : Form, IDataInjectable
     {
+        private const string k_SettingsNotSavedMessage = "Your settings couldn't be saved for some reason.. you will have to reconnect next time !";
         private User m_LoggedInUser;
         private User m_AlbumsUser;
         private AlbumPhotosForm m_AlbumPhotosForm;
@@ -36,19 +37,28 @@ namespace FBAppUI.Forms
 
             InitializeComponent();
             CenterToScreen();
-            SetFormViewBySettings();
+            setFormViewBySettings();
         }
 
-
-        protected override void OnShown(EventArgs e)
+        public void InjectData()
         {
-            base.OnShown(e);
-            InjectUserData();
+            fetchProfilePicture();
+            fetchUserAlbums();
+            fetchMostLikedPhoto();
+
+            HiLoggedUserLabel.Text = $"Hi, {m_LoggedInUser.FirstName}";
+            AlbumsLabel.Text = $"{m_AlbumsUser.Name}'s Albums";
         }
 
-        protected override void OnFormClosing(FormClosingEventArgs e)
+        protected override void OnShown(EventArgs i_EventArgs)
         {
-            base.OnFormClosing(e);
+            base.OnShown(i_EventArgs);
+            InjectData();
+        }
+
+        protected override void OnFormClosing(FormClosingEventArgs i_EventArgs)
+        {
+            base.OnFormClosing(i_EventArgs);
 
             m_AppSettings.LastWindowSize = this.Size;
             m_AppSettings.LastAccessToken = m_LastAccessToken;
@@ -60,11 +70,11 @@ namespace FBAppUI.Forms
             }
             catch
             {
-                MessageBox.Show("Your settings couldn't be saved for some reason.. you will have to reconnect next time !");
+                MessageBox.Show(k_SettingsNotSavedMessage);
             }
         }
 
-        private void SetFormViewBySettings()
+        private void setFormViewBySettings()
         {
             if (m_AppSettings != null)
             {
@@ -73,33 +83,14 @@ namespace FBAppUI.Forms
             }
         }
 
-        private void InjectUserData()
-        {
-            //Thread profilePictureThread = new Thread(fetchProfilePicture); 
-            //Thread userAlbumsThread = new Thread(fetchUserAlbums); 
-            //Thread mostLikedPhotoThread = new Thread(fetchMostLikedPhoto);
-
-            //profilePictureThread.Start();
-            //userAlbumsThread.Start();
-            //mostLikedPhotoThread.Start();
-
-            fetchProfilePicture();
-            fetchUserAlbums();
-            fetchMostLikedPhoto();
-
-            HiLoggedUserLabel.Text = $"Hi, {m_LoggedInUser.FirstName}";
-            AlbumsLabel.Text = $"{m_AlbumsUser.Name}'s Albums";
-        }
-
-
-        private void AlbumsListView_DoubleClick(object sender, EventArgs e)
+        private void albumsListView_DoubleClick(object i_Sender, EventArgs i_EventArgs)
         {
             Cursor = Cursors.WaitCursor;
             showAlbumPhotosForm();
             Cursor = Cursors.Default;
         }
 
-        private void ChangeAlbumOwnerButton_Click(object sender, EventArgs e)
+        private void changeAlbumOwnerButton_Click(object i_Sender, EventArgs i_EventArgs)
         {
             string potentialFriendName = ShowAlbumsOfTextBox.Text;
             User potentialFriend = m_LoggedInUser.Friends.Where(friend => friend.Name.Contains(potentialFriendName)).FirstOrDefault();
@@ -116,15 +107,14 @@ namespace FBAppUI.Forms
             }
         }
 
-        private void LogoutButton_Click(object sender, EventArgs e)
+        private void logoutButton_Click(object i_Sender, EventArgs i_EventArgs)
         {
             DialogResult = DialogResult.Abort;
             Dispose();
             Close();
         }
-
         
-        private void BestFriendButton_Click(object sender, EventArgs e)
+        private void bestFriendButton_Click(object i_Sender, EventArgs i_EventArgs)
         {
             User bestFriend;
 
@@ -136,8 +126,8 @@ namespace FBAppUI.Forms
                 .GroupBy(tag => tag.User.Name)
                 .OrderByDescending(gp => gp.Count())
                 .FirstOrDefault()
-                .FirstOrDefault()?
-                .User;
+                .FirstOrDefault()
+                ?.User;
             } 
             catch
             {
@@ -148,7 +138,7 @@ namespace FBAppUI.Forms
             m_BestFriendForm.ShowDialog();
         }
 
-        private void FindLoveButton_Click(object sender, EventArgs e)
+        private void findLoveButton_Click(object i_Sender, EventArgs i_EventArgs)
         {
             User bestMatch;
             bool isMaleChecked = MaleCheckBox.Checked;

@@ -1,11 +1,11 @@
-﻿using FacebookWrapper;
+﻿using System;
+using System.Drawing;
+using System.Windows.Forms;
+using FacebookWrapper;
 using FBAppCore.AppSettings;
 using FBAppCore.Login;
 using FBAppInfra.Validation;
 using FBAppUI.Forms;
-using System;
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace FBAppUI
 {
@@ -17,18 +17,18 @@ namespace FBAppUI
         private bool m_ExitSignal;
         private AppSettings m_AppSettings;
 
-        public ApplicationManager(ILoginClient i_loginClient)
+        public ApplicationManager(ILoginClient i_LoginClient)
         {
-            m_loginClient = InputGuard.CheckNullArgument(i_loginClient, nameof(i_loginClient));
+            m_loginClient = InputGuard.CheckNullArgument(i_LoginClient, nameof(i_LoginClient));
             m_ExitSignal = false;
 
             try
             {
                 m_AppSettings = AppXmlSettingsHandler.Instance.LoadSettingsFromFile();
             }
-            catch (Exception exception)
+            catch 
             {
-                UseDefaultSettings();
+                useDefaultSettings();
             }
         }
 
@@ -37,14 +37,14 @@ namespace FBAppUI
             while (!m_ExitSignal)
             {
                 LoginResultData LoginResultData = m_AppSettings.RememberUser && !string.IsNullOrEmpty(m_AppSettings.LastAccessToken) ?
-                    ConnectWithLastUser() :
-                    ShowLoginForm();
-                DialogResult appDialogResult = ShowApplicationForm(LoginResultData);
-                m_ExitSignal = appDialogResult == DialogResult.Cancel;
+                    connectWithLastUser() :
+                    showLoginForm();
+                DialogResult appDialogResult = showApplicationForm(LoginResultData);
+                m_ExitSignal = appDialogResult == DialogResult.Cancel || LoginResultData.LoginDialogResult == DialogResult.Cancel;
             }
         }
 
-        private LoginResultData ConnectWithLastUser()
+        private LoginResultData connectWithLastUser()
         {
             LoginResult loginResult = m_loginClient.Connect(m_AppSettings.LastAccessToken);
 
@@ -56,7 +56,7 @@ namespace FBAppUI
             };
         }
 
-        private void UseDefaultSettings()
+        private void useDefaultSettings()
         {
             m_AppSettings = new AppSettings()
             {
@@ -66,7 +66,7 @@ namespace FBAppUI
             };
         }
 
-        private LoginResultData ShowLoginForm()
+        private LoginResultData showLoginForm()
         {
             DialogResult dialogResult = DialogResult.Retry;
 
@@ -87,13 +87,13 @@ namespace FBAppUI
             return loginResultData;
         }
 
-        private DialogResult ShowApplicationForm(LoginResultData loginFormResult)
+        private DialogResult showApplicationForm(LoginResultData i_LoginFormResult)
         {
             DialogResult dialogResult = DialogResult.OK;
 
-            if (loginFormResult.LoginDialogResult == DialogResult.OK)
+            if (i_LoginFormResult.LoginDialogResult == DialogResult.OK)
             {
-                m_ApplicationForm = new ApplicationForm(loginFormResult, m_AppSettings);
+                m_ApplicationForm = new ApplicationForm(i_LoginFormResult, m_AppSettings);
                 dialogResult = m_ApplicationForm.ShowDialog();
                 m_ApplicationForm.Dispose();
             }
