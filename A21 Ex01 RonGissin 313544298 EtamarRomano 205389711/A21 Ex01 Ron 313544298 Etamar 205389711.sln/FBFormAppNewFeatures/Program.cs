@@ -1,12 +1,8 @@
-﻿using FacebookWrapper;
-using FacebookWrapper.ObjectModel;
+﻿using FBAppCore.Login;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace FBFormAppNewFeatures
+namespace FBAppUI
 {
     static class Program
     {

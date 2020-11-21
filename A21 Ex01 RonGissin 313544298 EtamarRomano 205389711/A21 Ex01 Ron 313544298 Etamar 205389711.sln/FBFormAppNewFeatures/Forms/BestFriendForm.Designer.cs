@@ -1,4 +1,4 @@
-﻿namespace FBFormAppNewFeatures.Forms
+﻿namespace FBAppUI.Forms
 {
     partial class BestFriendForm
     {

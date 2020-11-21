@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{0C5D4161-6264-45A6-99F7-80FAB16121E2}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>FBFormAppNewFeatures</RootNamespace>
-    <AssemblyName>FBFormAppNewFeatures</AssemblyName>
+    <RootNamespace>FBAppUI</RootNamespace>
+    <AssemblyName>FBAppUI</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApplicationManager.cs" />
     <Compile Include="Controls\RoundButton.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -73,10 +74,6 @@
     <Compile Include="Forms\ImageForm.Designer.cs">
       <DependentUpon>ImageForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ILikeHandler.cs" />
-    <Compile Include="UserMatcher.cs" />
-    <Compile Include="Validation\InputGuard.cs" />
-    <Compile Include="LikeHandler.cs" />
     <Compile Include="Controls\PhotosListView.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -86,18 +83,12 @@
     <Compile Include="Forms\ApplicationForm.Designer.cs">
       <DependentUpon>ApplicationForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ApplicationFormResult.cs" />
-    <Compile Include="ApplicationManager.cs" />
-    <Compile Include="IPhotoGrid.cs" />
-    <Compile Include="Login\FacebookLoginClient.cs" />
-    <Compile Include="Login\ILoginClient.cs" />
     <Compile Include="Forms\LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\LoginForm.Designer.cs">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Login\LoginFormResult.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Forms\AlbumPhotosForm.resx">
@@ -123,6 +114,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="appconfig.json" />
     <None Include="Properties\Settings.settings">
@@ -139,8 +131,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\like.png" />
-    <Content Include="Assets\unlike.jpg" />
+    <ProjectReference Include="..\FBAppCore\FBAppCore.csproj">
+      <Project>{19E3CF94-2B93-4140-B92F-7AD0C3F52BB0}</Project>
+      <Name>FBAppCore</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

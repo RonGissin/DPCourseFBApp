@@ -1,4 +1,6 @@
-﻿namespace FBFormAppNewFeatures
+﻿using FBAppUI.Controls;
+
+namespace FBAppUI.Forms
 {
     partial class ApplicationForm
     {
@@ -34,20 +36,21 @@
             this.ShowAlbumsOfTextBox = new System.Windows.Forms.TextBox();
             this.ChangeAlbumOwnerButton = new System.Windows.Forms.Button();
             this.AlbumsLabel = new System.Windows.Forms.Label();
-            this.AlbumsListView = new FBFormAppNewFeatures.PhotosListView();
+            this.AlbumsListView = new FBAppUI.Controls.PhotosListView();
             this.HiLoggedUserLabel = new System.Windows.Forms.Label();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.BestFriendLabel = new System.Windows.Forms.Label();
             this.BestFriendButton = new System.Windows.Forms.Button();
             this.MostLikedPhotoLabel = new System.Windows.Forms.Label();
             this.MostLikedPhotoPictureBox = new System.Windows.Forms.PictureBox();
-            this.LogoutButton = new FBFormAppNewFeatures.Controls.RoundButton();
+            this.LogoutButton = new FBAppUI.Controls.RoundButton();
             this.BestMatchLabel = new System.Windows.Forms.Label();
             this.InterestedInLabel = new System.Windows.Forms.Label();
             this.MaleCheckBox = new System.Windows.Forms.CheckBox();
             this.FemaleCheckBox = new System.Windows.Forms.CheckBox();
             this.FindLoveButton = new System.Windows.Forms.Button();
             this.BestMatchPictureBox = new System.Windows.Forms.PictureBox();
+            this.RememberUserCheckBox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.ProfilePictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MostLikedPhotoPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BestMatchPictureBox)).BeginInit();
@@ -99,8 +102,8 @@
             // 
             // AlbumsLabel
             // 
-            this.AlbumsLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.AlbumsLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.AlbumsLabel.AutoSize = true;
             this.AlbumsLabel.BackColor = System.Drawing.Color.LightYellow;
@@ -114,8 +117,8 @@
             // 
             // AlbumsListView
             // 
-            this.AlbumsListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.AlbumsListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.AlbumsListView.BackColor = System.Drawing.Color.LightYellow;
             this.AlbumsListView.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -189,7 +192,7 @@
             // 
             this.LogoutButton.BackColor = System.Drawing.Color.LightYellow;
             this.LogoutButton.Font = new System.Drawing.Font("Rockwell", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LogoutButton.Location = new System.Drawing.Point(16, 231);
+            this.LogoutButton.Location = new System.Drawing.Point(16, 226);
             this.LogoutButton.Name = "LogoutButton";
             this.LogoutButton.Size = new System.Drawing.Size(141, 45);
             this.LogoutButton.TabIndex = 12;
@@ -258,12 +261,24 @@
             this.BestMatchPictureBox.TabIndex = 16;
             this.BestMatchPictureBox.TabStop = false;
             // 
+            // RememberUserCheckBox
+            // 
+            this.RememberUserCheckBox.AutoSize = true;
+            this.RememberUserCheckBox.Font = new System.Drawing.Font("Rockwell", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RememberUserCheckBox.Location = new System.Drawing.Point(16, 291);
+            this.RememberUserCheckBox.Name = "RememberUserCheckBox";
+            this.RememberUserCheckBox.Size = new System.Drawing.Size(169, 26);
+            this.RememberUserCheckBox.TabIndex = 17;
+            this.RememberUserCheckBox.Text = "Remember me";
+            this.RememberUserCheckBox.UseVisualStyleBackColor = true;
+            // 
             // ApplicationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.PowderBlue;
             this.ClientSize = new System.Drawing.Size(1317, 830);
+            this.Controls.Add(this.RememberUserCheckBox);
             this.Controls.Add(this.BestMatchPictureBox);
             this.Controls.Add(this.FemaleCheckBox);
             this.Controls.Add(this.MaleCheckBox);
@@ -313,5 +328,6 @@
         private System.Windows.Forms.CheckBox FemaleCheckBox;
         private System.Windows.Forms.Button FindLoveButton;
         private System.Windows.Forms.PictureBox BestMatchPictureBox;
+        private System.Windows.Forms.CheckBox RememberUserCheckBox;
     }
 }

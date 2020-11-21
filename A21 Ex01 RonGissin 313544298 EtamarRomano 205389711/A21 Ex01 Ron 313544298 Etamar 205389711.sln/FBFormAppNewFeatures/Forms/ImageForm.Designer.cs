@@ -1,4 +1,4 @@
-﻿namespace FBFormAppNewFeatures.Forms
+﻿namespace FBAppUI.Forms
 {
     partial class ImageForm
     {
@@ -51,7 +51,7 @@
             this.ImageCommentBox.Size = new System.Drawing.Size(585, 116);
             this.ImageCommentBox.TabIndex = 2;
             this.ImageCommentBox.Text = "";
-            this.ImageCommentBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.richTextBox1_KeyPress);
+            this.ImageCommentBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ImageCommentBox_KeyPress);
             // 
             // ImageCommentLabel
             // 
@@ -70,6 +70,7 @@
             this.LikePictureBox.Size = new System.Drawing.Size(108, 98);
             this.LikePictureBox.TabIndex = 4;
             this.LikePictureBox.TabStop = false;
+            this.LikePictureBox.DoubleClick += new System.EventHandler(this.LikePictureBox_DoubleClick);
             // 
             // ImageForm
             // 

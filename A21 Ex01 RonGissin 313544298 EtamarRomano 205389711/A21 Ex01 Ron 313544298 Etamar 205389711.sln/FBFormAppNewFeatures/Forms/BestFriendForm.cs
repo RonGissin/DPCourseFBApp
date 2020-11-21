@@ -1,15 +1,9 @@
 ﻿using FacebookWrapper.ObjectModel;
+using FBAppInfra.Validation;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace FBFormAppNewFeatures.Forms
+namespace FBAppUI.Forms
 {
     public partial class BestFriendForm : Form
     {
@@ -18,8 +12,14 @@ namespace FBFormAppNewFeatures.Forms
         {
             m_BestFriend = InputGuard.CheckNullArgument(i_BestFriend, nameof(i_BestFriend));
             InitializeComponent();
-            InjectUserData();
             CenterToScreen();
+        }
+
+        protected override void OnShown(EventArgs e)
+        {
+            base.OnShown(e);
+
+            InjectUserData();
         }
 
         private void InjectUserData()

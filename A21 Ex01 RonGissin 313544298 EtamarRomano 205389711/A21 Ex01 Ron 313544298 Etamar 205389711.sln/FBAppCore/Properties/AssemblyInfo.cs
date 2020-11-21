@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("FBAppUI")]
+[assembly: AssemblyTitle("FBAppCore")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("FBAppUI")]
+[assembly: AssemblyProduct("FBAppCore")]
 [assembly: AssemblyCopyright("Copyright ©  2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("0c5d4161-6264-45a6-99f7-80fab16121e2")]
+[assembly: Guid("19e3cf94-2b93-4140-b92f-7ad0c3f52bb0")]
 
 // Version information for an assembly consists of the following four values:
 //

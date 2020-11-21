@@ -1,4 +1,4 @@
-﻿namespace FBFormAppNewFeatures
+﻿namespace FBAppUI.Forms
 {
     partial class LoginForm
     {

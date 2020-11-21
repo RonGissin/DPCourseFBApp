@@ -1,4 +1,4 @@
-﻿namespace FBFormAppNewFeatures
+﻿namespace FBAppCore
 {
     internal class ApplicationFormResult
     {

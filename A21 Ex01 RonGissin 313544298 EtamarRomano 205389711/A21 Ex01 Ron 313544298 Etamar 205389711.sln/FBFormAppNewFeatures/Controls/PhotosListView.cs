@@ -1,13 +1,12 @@
 ﻿using FacebookWrapper.ObjectModel;
+using FBAppCore;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace FBFormAppNewFeatures
+namespace FBAppUI.Controls
 {
     public class PhotosListView : ListView, IPhotoGrid
     {

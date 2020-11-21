@@ -1,18 +1,18 @@
-﻿using FacebookWrapper;
-using FacebookWrapper.ObjectModel;
-using FBFormAppNewFeatures.Forms;
+﻿using FacebookWrapper.ObjectModel;
+using FBAppCore;
+using FBAppCore.AppSettings;
+using FBAppCore.Login;
+using FBAppInfra.Validation;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
 
-namespace FBFormAppNewFeatures
+namespace FBAppUI.Forms
 {
     public partial class ApplicationForm : Form
     {
@@ -21,61 +21,76 @@ namespace FBFormAppNewFeatures
         private AlbumPhotosForm m_AlbumPhotosForm;
         private BestFriendForm m_BestFriendForm;
         private UserMatcher m_UserMatcher;
+        private AppSettings m_AppSettings;
+        private string m_LastAccessToken;
+        private ISettingsFileHandler m_SettingsHandler;
 
-        public ApplicationForm(User i_LoggedInUser)
+        public ApplicationForm(LoginResultData i_LoginResultData, AppSettings i_AppSettings)
         {
-            m_LoggedInUser = InputGuard.CheckNullArgument(i_LoggedInUser, nameof(i_LoggedInUser));
+            m_LoggedInUser = InputGuard.CheckNullArgument(i_LoginResultData, nameof(i_LoginResultData)).User;
+            m_AppSettings = InputGuard.CheckNullArgument(i_AppSettings, nameof(i_AppSettings));
+            m_SettingsHandler = AppXmlSettingsHandler.Instance;
+            m_LastAccessToken = i_LoginResultData.AccessToken;
             m_AlbumsUser = m_LoggedInUser;
             m_UserMatcher = new UserMatcher();
-            
+
             InitializeComponent();
-            InjectUserData();
             CenterToScreen();
+            SetFormViewBySettings();
         }
 
-        public void InjectUserData()
+
+        protected override void OnShown(EventArgs e)
         {
+            base.OnShown(e);
+            InjectUserData();
+        }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            base.OnFormClosing(e);
+
+            m_AppSettings.LastWindowSize = this.Size;
+            m_AppSettings.LastAccessToken = m_LastAccessToken;
+            m_AppSettings.RememberUser = this.RememberUserCheckBox.Checked;
+
+            try
+            {
+                m_SettingsHandler.SaveSettingsToFile(m_AppSettings);
+            }
+            catch
+            {
+                MessageBox.Show("Your settings couldn't be saved for some reason.. you will have to reconnect next time !");
+            }
+        }
+
+        private void SetFormViewBySettings()
+        {
+            if (m_AppSettings != null)
+            {
+                this.Size = m_AppSettings.LastWindowSize;
+                this.RememberUserCheckBox.Checked = m_AppSettings.RememberUser;
+            }
+        }
+
+        private void InjectUserData()
+        {
+            //Thread profilePictureThread = new Thread(fetchProfilePicture); 
+            //Thread userAlbumsThread = new Thread(fetchUserAlbums); 
+            //Thread mostLikedPhotoThread = new Thread(fetchMostLikedPhoto);
+
+            //profilePictureThread.Start();
+            //userAlbumsThread.Start();
+            //mostLikedPhotoThread.Start();
+
             fetchProfilePicture();
             fetchUserAlbums();
             fetchMostLikedPhoto();
+
             HiLoggedUserLabel.Text = $"Hi, {m_LoggedInUser.FirstName}";
             AlbumsLabel.Text = $"{m_AlbumsUser.Name}'s Albums";
         }
 
-        private void fetchMostLikedPhoto()
-        {
-            Photo mostLikedPhoto = m_AlbumsUser.Albums
-                .SelectMany(album => album.Photos)
-                .OrderByDescending(photo => photo.LikedBy.Count())
-                .FirstOrDefault();
-
-            MostLikedPhotoPictureBox.LoadAsync(mostLikedPhoto.PictureNormalURL);
-        }
-
-        private void fetchUserAlbums()
-        {
-            IEnumerable<Photo> albumCoverPhotos = m_AlbumsUser.Albums.Select(album => album.CoverPhoto);
-            IEnumerable<string> albumNames = m_AlbumsUser.Albums.Select(album => album.Name);
-
-            AlbumsListView.SetGrid(albumCoverPhotos, albumNames);
-        }
-
-        private void fetchProfilePicture()
-        {
-            GraphicsPath gp = new GraphicsPath();
-            gp.AddEllipse(0, 0, ProfilePictureBox.Width - 3, ProfilePictureBox.Height - 3);
-            Region region = new Region(gp);
-            ProfilePictureBox.Region = region;
-            ProfilePictureBox.LoadAsync(m_LoggedInUser.PictureNormalURL);
-        }
-
-        private void showAlbumPhotosForm()
-        {
-            string albumToShowName = AlbumsListView.SelectedItems[0].SubItems[0].Text;
-            Album albumToShow = m_AlbumsUser.Albums.Where(album => album.Name.Equals(albumToShowName)).FirstOrDefault();
-            m_AlbumPhotosForm = new AlbumPhotosForm(albumToShow, m_LoggedInUser);
-            m_AlbumPhotosForm.ShowDialog();
-        }
 
         private void AlbumsListView_DoubleClick(object sender, EventArgs e)
         {
@@ -129,7 +144,6 @@ namespace FBFormAppNewFeatures
                 bestFriend = m_LoggedInUser;
             }
             
-
             m_BestFriendForm = new BestFriendForm(bestFriend);
             m_BestFriendForm.ShowDialog();
         }
@@ -161,6 +175,46 @@ namespace FBFormAppNewFeatures
 
             BestMatchPictureBox.LoadAsync(bestMatch.PictureNormalURL);
             BestMatchPictureBox.Refresh();
+        }
+
+        private void fetchMostLikedPhoto()
+        {
+            Photo mostLikedPhoto = m_AlbumsUser.Albums
+                .SelectMany(album => album.Photos)
+                .OrderByDescending(photo => photo.LikedBy.Count())
+                .FirstOrDefault();
+
+            if (mostLikedPhoto != null)
+            {
+                MostLikedPhotoPictureBox.LoadAsync(mostLikedPhoto.PictureNormalURL);
+            }
+
+            MostLikedPhotoPictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
+        }
+
+        private void fetchUserAlbums()
+        {
+            IEnumerable<Photo> albumCoverPhotos = m_AlbumsUser.Albums.Select(album => album.CoverPhoto);
+            IEnumerable<string> albumNames = m_AlbumsUser.Albums.Select(album => album.Name);
+
+            AlbumsListView.SetGrid(albumCoverPhotos, albumNames);
+        }
+
+        private void fetchProfilePicture()
+        {
+            GraphicsPath gp = new GraphicsPath();
+            gp.AddEllipse(0, 0, ProfilePictureBox.Width - 3, ProfilePictureBox.Height - 3);
+            Region region = new Region(gp);
+            ProfilePictureBox.Region = region;
+            ProfilePictureBox.LoadAsync(m_LoggedInUser.PictureNormalURL);
+        }
+
+        private void showAlbumPhotosForm()
+        {
+            string albumToShowName = AlbumsListView.SelectedItems[0].SubItems[0].Text;
+            Album albumToShow = m_AlbumsUser.Albums.Where(album => album.Name.Equals(albumToShowName)).FirstOrDefault();
+            m_AlbumPhotosForm = new AlbumPhotosForm(albumToShow, m_LoggedInUser);
+            m_AlbumPhotosForm.ShowDialog();
         }
     }
 }

@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FBFormAppNewFeatures
+namespace FBAppInfra.Validation
 {
     public static class InputGuard
     {
         public static T CheckNullArgument<T>(T argument, string argumentName = null)
         {
-            if(argument == null)
+            if (argument == null)
             {
                 throw new ArgumentNullException(argumentName);
             }

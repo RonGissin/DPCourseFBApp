@@ -1,17 +1,15 @@
 ﻿using FacebookWrapper.ObjectModel;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace FBFormAppNewFeatures
+namespace FBAppCore
 {
     public class UserMatcher
     {
         public User FindMatch(User i_UserToMatchTo, Func<User, bool> filterFunc)
         {
             User bestMatch;
+
             try
             {
                 bestMatch = i_UserToMatchTo.Albums
@@ -23,7 +21,7 @@ namespace FBFormAppNewFeatures
                 .FirstOrDefault()
                 .FirstOrDefault();
             }
-            catch (NullReferenceException exception)
+            catch (ArgumentNullException exception)
             {
                 // if no match found, return the matchee.
                 bestMatch = i_UserToMatchTo;
