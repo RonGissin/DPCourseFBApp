@@ -1,21 +1,21 @@
-﻿using FacebookWrapper.ObjectModel;
-using FBAppCore;
-using FBAppInfra.Validation;
-using System;
+﻿using System;
 using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
+using FacebookWrapper.ObjectModel;
+using FBAppCore;
+using FBAppInfra.Validation;
 
 namespace FBAppUI.Forms
 {
-    public partial class ImageForm : Form
+    public partial class ImageForm : Form, IDataInjectable
     {
+        private const string k_LikeUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Bot%C3%B3n_Me_gusta.svg/1200px-Bot%C3%B3n_Me_gusta.svg.png";
+        private const string k_UnlikeUrl = "https://humans-first.com/wp-content/uploads/2018/11/How-to-Unlike-Multiple-Facebook-Pages-at-Once-e1542361859101.png";
         private Photo m_Photo;
         private User m_LoggedInUser;
         private ILikeHandler m_LikeHandler;
         private bool m_IsImageLiked;
-        private const string c_LikeUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Bot%C3%B3n_Me_gusta.svg/1200px-Bot%C3%B3n_Me_gusta.svg.png";
-        private const string c_UnlikeUrl = "https://humans-first.com/wp-content/uploads/2018/11/How-to-Unlike-Multiple-Facebook-Pages-at-Once-e1542361859101.png";
 
         public ImageForm(Photo i_Photo, User i_LoggedInUser)
         {
@@ -28,14 +28,7 @@ namespace FBAppUI.Forms
             CenterToScreen();
         }
 
-        protected override void OnShown(EventArgs e)
-        {
-            base.OnShown(e);
-
-            InjectUserData();
-        }
-
-        private void InjectUserData()
+        public void InjectData()
         {
             Text = m_Photo.Name;
             ImagePictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -43,46 +36,48 @@ namespace FBAppUI.Forms
             LikePictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
         }
 
+        protected override void OnShown(EventArgs i_EventArgs)
+        {
+            base.OnShown(i_EventArgs);
+
+            InjectData();
+        }
+
         private bool isPhotoLikedByUser()
         {
             return m_LikeHandler.IsLikedBy(m_Photo, m_LoggedInUser);
         }
 
-        private void LikePictureBox_DoubleClick(object sender, EventArgs e)
+        private void likePictureBox_DoubleClick(object i_Sender, EventArgs i_EventArgs)
         {
-            ToggleLikeUnlike();
+            toggleLikeUnlike();
         }
 
-        private void ImageLikeButton_Click(object sender, EventArgs e)
+        private void imageCommentBox_KeyPress(object i_Sender, KeyPressEventArgs i_EventArgs)
         {
-            ToggleLikeUnlike();
-        }
-
-        private void ImageCommentBox_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if(e.KeyChar == (char)Keys.Enter)
+            if(i_EventArgs.KeyChar == (char)Keys.Enter)
             {
-                PostComment();
+                postComment();
             }
         }
 
-        private void ImageForm_Load(object sender, EventArgs e)
+        private void imageForm_Load(object i_Sender, EventArgs i_EventArgs)
         {
             if (isPhotoLikedByUser())
             {
-                LikePictureBox.LoadAsync(c_UnlikeUrl);
+                LikePictureBox.LoadAsync(k_UnlikeUrl);
                 m_IsImageLiked = true;
             }
             else
             {
-                LikePictureBox.LoadAsync(c_LikeUrl);
+                LikePictureBox.LoadAsync(k_LikeUrl);
                 m_IsImageLiked = false;
             }
 
             LikePictureBox.Refresh();
         }
 
-        private void PostComment()
+        private void postComment()
         {
             // FacebookWrapper.dll throws exception - commenting is deprecated.
             try
@@ -102,18 +97,29 @@ namespace FBAppUI.Forms
             ImageCommentBox.Clear();
         }
 
-        private void ToggleLikeUnlike()
+        private void disposeOfImageIfNeeded(PictureBox i_PictureBox)
+        {
+            if (i_PictureBox.Image != null)
+            {
+                i_PictureBox.Image.Dispose();
+                i_PictureBox.Image = null;
+            }
+        }
+
+        private void toggleLikeUnlike()
         {
             try
             {
+                disposeOfImageIfNeeded(LikePictureBox);
+
                 if (!m_IsImageLiked)
                 {
-                    LikePictureBox.LoadAsync(c_UnlikeUrl);
+                    LikePictureBox.LoadAsync(k_UnlikeUrl);
                     m_LikeHandler.Like(m_Photo);
                 }
                 else
                 {
-                    LikePictureBox.LoadAsync(c_LikeUrl);
+                    LikePictureBox.LoadAsync(k_LikeUrl);
                     m_LikeHandler.Unlike(m_Photo);
                 }
             }
@@ -125,6 +131,5 @@ namespace FBAppUI.Forms
                 LikePictureBox.Refresh();
             }
         }
-
     }
 }

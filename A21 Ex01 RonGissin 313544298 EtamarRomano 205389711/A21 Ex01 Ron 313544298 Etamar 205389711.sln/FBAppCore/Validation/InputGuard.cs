@@ -8,30 +8,29 @@ namespace FBAppInfra.Validation
 {
     public static class InputGuard
     {
-        public static T CheckNullArgument<T>(T argument, string argumentName = null)
+        public static T CheckNullArgument<T>(T i_Argument, string i_ArgumentName = null)
         {
-            if (argument == null)
+            if (i_Argument == null)
             {
-                throw new ArgumentNullException(argumentName);
+                throw new ArgumentNullException(i_ArgumentName);
             }
 
-            return argument;
+            return i_Argument;
         }
 
-        public static string CheckNullOrEmptyArgument(string argument, string paramName)
+        public static string CheckNullOrEmptyArgument(string i_Argument, string i_ParamName)
         {
-            if (argument == null)
+            if (i_Argument == null)
             {
-                throw new ArgumentNullException(paramName);
+                throw new ArgumentNullException(i_ParamName);
             }
 
-            if (argument == string.Empty)
+            if (i_Argument == string.Empty)
             {
-                throw new ArgumentException("String may not be empty", paramName);
+                throw new ArgumentException("String may not be empty", i_ParamName);
             }
 
-            return argument;
+            return i_Argument;
         }
-
     }
 }

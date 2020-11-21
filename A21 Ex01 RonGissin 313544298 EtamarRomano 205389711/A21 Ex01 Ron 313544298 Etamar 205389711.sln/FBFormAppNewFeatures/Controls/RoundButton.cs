@@ -6,12 +6,12 @@ namespace FBAppUI.Controls
 {
     public class RoundButton : Button
     {
-        protected override void OnPaint(PaintEventArgs e)
+        protected override void OnPaint(PaintEventArgs i_EventArgs)
         {
-            GraphicsPath grPath = new GraphicsPath();
-            grPath.AddEllipse(1, 1, ClientSize.Width - 4, ClientSize.Height - 4);
-            this.Region = new Region(grPath);
-            base.OnPaint(e);
+            GraphicsPath graphicsPath = new GraphicsPath();
+            graphicsPath.AddEllipse(1, 1, ClientSize.Width - 4, ClientSize.Height - 4);
+            this.Region = new Region(graphicsPath);
+            base.OnPaint(i_EventArgs);
         }
     }
 }

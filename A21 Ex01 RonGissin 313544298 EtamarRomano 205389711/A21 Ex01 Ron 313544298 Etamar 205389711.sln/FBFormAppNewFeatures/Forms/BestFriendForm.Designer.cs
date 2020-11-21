@@ -1,6 +1,6 @@
 ﻿namespace FBAppUI.Forms
 {
-    partial class BestFriendForm
+    public partial class BestFriendForm
     {
         /// <summary>
         /// Required designer variable.
@@ -17,6 +17,7 @@
             {
                 components.Dispose();
             }
+
             base.Dispose(disposing);
         }
 

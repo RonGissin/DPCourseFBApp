@@ -1,6 +1,6 @@
 ﻿namespace FBAppUI.Forms
 {
-    partial class ImageForm
+    public partial class ImageForm
     {
         /// <summary>
         /// Required designer variable.
@@ -17,6 +17,7 @@
             {
                 components.Dispose();
             }
+
             base.Dispose(disposing);
         }
 
@@ -50,8 +51,8 @@
             this.ImageCommentBox.Name = "ImageCommentBox";
             this.ImageCommentBox.Size = new System.Drawing.Size(585, 116);
             this.ImageCommentBox.TabIndex = 2;
-            this.ImageCommentBox.Text = "";
-            this.ImageCommentBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ImageCommentBox_KeyPress);
+            this.ImageCommentBox.Text = string.Empty;
+            this.ImageCommentBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.imageCommentBox_KeyPress);
             // 
             // ImageCommentLabel
             // 
@@ -65,12 +66,13 @@
             // 
             // LikePictureBox
             // 
+            this.LikePictureBox.Cursor = System.Windows.Forms.Cursors.Hand;
             this.LikePictureBox.Location = new System.Drawing.Point(24, 631);
             this.LikePictureBox.Name = "LikePictureBox";
             this.LikePictureBox.Size = new System.Drawing.Size(108, 98);
             this.LikePictureBox.TabIndex = 4;
             this.LikePictureBox.TabStop = false;
-            this.LikePictureBox.DoubleClick += new System.EventHandler(this.LikePictureBox_DoubleClick);
+            this.LikePictureBox.DoubleClick += new System.EventHandler(this.likePictureBox_DoubleClick);
             // 
             // ImageForm
             // 
@@ -84,7 +86,7 @@
             this.Controls.Add(this.ImagePictureBox);
             this.Name = "ImageForm";
             this.Text = "Image name";
-            this.Load += new System.EventHandler(this.ImageForm_Load);
+            this.Load += new System.EventHandler(this.imageForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.ImagePictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.LikePictureBox)).EndInit();
             this.ResumeLayout(false);
