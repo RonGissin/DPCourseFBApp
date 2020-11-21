@@ -9,20 +9,23 @@ namespace FBAppCore.AppSettings
         { 
             get
             {
-                lock (objLock)
+                if (m_Instance == null)
                 {
-                    if(instance == null)
+                    lock (m_ObjLock)
                     {
-                        instance = new AppXmlSettingsHandler();
+                        if (m_Instance == null)
+                        {
+                            m_Instance = new AppXmlSettingsHandler();
+                        }
                     }
-
-                    return instance;
                 }
-            } 
+
+                return m_Instance;
+            }
         }
 
-        private static AppXmlSettingsHandler instance = null;
-        private static readonly object objLock = new object();
+        private static AppXmlSettingsHandler m_Instance = null;
+        private static readonly object m_ObjLock = new object();
         private XmlSerializer m_Serializer;
         private const string c_XmlFilePath = @"C:\FBAppSettings.xml";
 
@@ -55,6 +58,5 @@ namespace FBAppCore.AppSettings
 
             return settings;
         }
-
     }
 }

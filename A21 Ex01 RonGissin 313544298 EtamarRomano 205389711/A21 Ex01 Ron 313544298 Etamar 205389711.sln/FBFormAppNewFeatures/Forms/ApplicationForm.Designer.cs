@@ -1,4 +1,6 @@
-﻿namespace FBFormAppNewFeatures
+﻿using FBAppUI.Controls;
+
+namespace FBAppUI.Forms
 {
     partial class ApplicationForm
     {
@@ -34,14 +36,14 @@
             this.ShowAlbumsOfTextBox = new System.Windows.Forms.TextBox();
             this.ChangeAlbumOwnerButton = new System.Windows.Forms.Button();
             this.AlbumsLabel = new System.Windows.Forms.Label();
-            this.AlbumsListView = new FBFormAppNewFeatures.PhotosListView();
+            this.AlbumsListView = new FBAppUI.Controls.PhotosListView();
             this.HiLoggedUserLabel = new System.Windows.Forms.Label();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.BestFriendLabel = new System.Windows.Forms.Label();
             this.BestFriendButton = new System.Windows.Forms.Button();
             this.MostLikedPhotoLabel = new System.Windows.Forms.Label();
             this.MostLikedPhotoPictureBox = new System.Windows.Forms.PictureBox();
-            this.LogoutButton = new FBFormAppNewFeatures.Controls.RoundButton();
+            this.LogoutButton = new FBAppUI.Controls.RoundButton();
             this.BestMatchLabel = new System.Windows.Forms.Label();
             this.InterestedInLabel = new System.Windows.Forms.Label();
             this.MaleCheckBox = new System.Windows.Forms.CheckBox();
@@ -100,8 +102,8 @@
             // 
             // AlbumsLabel
             // 
-            this.AlbumsLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.AlbumsLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.AlbumsLabel.AutoSize = true;
             this.AlbumsLabel.BackColor = System.Drawing.Color.LightYellow;
@@ -115,8 +117,8 @@
             // 
             // AlbumsListView
             // 
-            this.AlbumsListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.AlbumsListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.AlbumsListView.BackColor = System.Drawing.Color.LightYellow;
             this.AlbumsListView.Cursor = System.Windows.Forms.Cursors.Hand;

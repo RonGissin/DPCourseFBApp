@@ -3,7 +3,7 @@ using FBAppInfra.Validation;
 using System;
 using System.Windows.Forms;
 
-namespace FBFormAppNewFeatures.Forms
+namespace FBAppUI.Forms
 {
     public partial class BestFriendForm : Form
     {

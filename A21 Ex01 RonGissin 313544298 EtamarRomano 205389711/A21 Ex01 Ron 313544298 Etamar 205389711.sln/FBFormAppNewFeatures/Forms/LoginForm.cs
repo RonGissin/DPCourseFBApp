@@ -5,7 +5,7 @@ using FBAppInfra.Validation;
 using System;
 using System.Windows.Forms;
 
-namespace FBFormAppNewFeatures
+namespace FBAppUI.Forms
 {
     public partial class LoginForm : Form
     {

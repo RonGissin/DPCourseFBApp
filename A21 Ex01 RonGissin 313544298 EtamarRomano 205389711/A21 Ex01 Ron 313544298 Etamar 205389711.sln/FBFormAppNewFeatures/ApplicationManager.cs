@@ -2,11 +2,12 @@
 using FBAppCore.AppSettings;
 using FBAppCore.Login;
 using FBAppInfra.Validation;
+using FBAppUI.Forms;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace FBFormAppNewFeatures
+namespace FBAppUI
 {
     public class ApplicationManager
     {
@@ -29,7 +30,6 @@ namespace FBFormAppNewFeatures
             {
                 UseDefaultSettings();
             }
-
         }
 
         public void RunApplication()

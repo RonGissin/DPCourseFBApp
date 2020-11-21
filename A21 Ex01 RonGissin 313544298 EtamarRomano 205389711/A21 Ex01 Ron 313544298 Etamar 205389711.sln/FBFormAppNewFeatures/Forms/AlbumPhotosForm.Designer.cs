@@ -1,4 +1,6 @@
-﻿namespace FBFormAppNewFeatures.Forms
+﻿using FBAppUI.Controls;
+
+namespace FBAppUI.Forms
 {
     partial class AlbumPhotosForm
     {
@@ -28,7 +30,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.AlbumPhotosListView = new FBFormAppNewFeatures.PhotosListView();
+            this.AlbumPhotosListView = new FBAppUI.Controls.PhotosListView();
             this.AlbumLikesLabel = new System.Windows.Forms.Label();
             this.NumAlbumLikesLabel = new System.Windows.Forms.Label();
             this.AlbumTagsLabel = new System.Windows.Forms.Label();
@@ -41,8 +43,8 @@
             // 
             // AlbumPhotosListView
             // 
-            this.AlbumPhotosListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.AlbumPhotosListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.AlbumPhotosListView.BackColor = System.Drawing.Color.LightYellow;
             this.AlbumPhotosListView.GridLines = true;

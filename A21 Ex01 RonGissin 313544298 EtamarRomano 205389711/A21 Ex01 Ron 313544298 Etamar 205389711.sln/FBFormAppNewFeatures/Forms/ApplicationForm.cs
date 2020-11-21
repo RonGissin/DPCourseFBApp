@@ -3,7 +3,6 @@ using FBAppCore;
 using FBAppCore.AppSettings;
 using FBAppCore.Login;
 using FBAppInfra.Validation;
-using FBFormAppNewFeatures.Forms;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -13,7 +12,7 @@ using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace FBFormAppNewFeatures
+namespace FBAppUI.Forms
 {
     public partial class ApplicationForm : Form
     {
@@ -76,18 +75,18 @@ namespace FBFormAppNewFeatures
 
         private void InjectUserData()
         {
-            Thread profilePictureThread = new Thread(fetchProfilePicture); 
-            Thread userAlbumsThread = new Thread(fetchUserAlbums); 
-            Thread mostLikedPhotoThread = new Thread(fetchMostLikedPhoto);
+            //Thread profilePictureThread = new Thread(fetchProfilePicture); 
+            //Thread userAlbumsThread = new Thread(fetchUserAlbums); 
+            //Thread mostLikedPhotoThread = new Thread(fetchMostLikedPhoto);
 
-            profilePictureThread.Start();
-            userAlbumsThread.Start();
-            mostLikedPhotoThread.Start();
+            //profilePictureThread.Start();
+            //userAlbumsThread.Start();
+            //mostLikedPhotoThread.Start();
 
-            // fetchProfilePicture();
-            // fetchUserAlbums();
-            // fetchMostLikedPhoto();
-            
+            fetchProfilePicture();
+            fetchUserAlbums();
+            fetchMostLikedPhoto();
+
             HiLoggedUserLabel.Text = $"Hi, {m_LoggedInUser.FirstName}";
             AlbumsLabel.Text = $"{m_AlbumsUser.Name}'s Albums";
         }
