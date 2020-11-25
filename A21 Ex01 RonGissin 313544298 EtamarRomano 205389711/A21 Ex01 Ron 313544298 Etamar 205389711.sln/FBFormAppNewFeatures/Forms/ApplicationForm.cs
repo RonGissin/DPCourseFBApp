@@ -4,7 +4,6 @@ using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
-using System.Threading;
 using System.Windows.Forms;
 using FacebookWrapper.ObjectModel;
 using FBAppCore;
@@ -169,14 +168,20 @@ namespace FBAppUI.Forms
 
         private void fetchMostLikedPhoto()
         {
-            Photo mostLikedPhoto = m_AlbumsUser.Albums
+            try
+            {
+                Photo mostLikedPhoto = m_AlbumsUser.Albums
                 .SelectMany(album => album.Photos)
                 .OrderByDescending(photo => photo.LikedBy.Count())
                 .FirstOrDefault();
 
-            if (mostLikedPhoto != null)
+                if (mostLikedPhoto != null)
+                {
+                    MostLikedPhotoPictureBox.LoadAsync(mostLikedPhoto.PictureNormalURL);
+                }
+            }
+            catch
             {
-                MostLikedPhotoPictureBox.LoadAsync(mostLikedPhoto.PictureNormalURL);
             }
 
             MostLikedPhotoPictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -184,8 +189,19 @@ namespace FBAppUI.Forms
 
         private void fetchUserAlbums()
         {
-            IEnumerable<Photo> albumCoverPhotos = m_AlbumsUser.Albums.Select(album => album.CoverPhoto);
-            IEnumerable<string> albumNames = m_AlbumsUser.Albums.Select(album => album.Name);
+            IEnumerable<Photo> albumCoverPhotos = null;
+            IEnumerable<string> albumNames = null;
+
+            try
+            {
+                albumCoverPhotos = m_AlbumsUser.Albums.Select(album => album.CoverPhoto);
+                albumNames = m_AlbumsUser.Albums.Select(album => album.Name);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("The server was throttled with requests.. some data will be missing.");
+            }
+            
 
             AlbumsListView.SetGrid(albumCoverPhotos, albumNames);
         }
@@ -196,7 +212,13 @@ namespace FBAppUI.Forms
             gp.AddEllipse(0, 0, ProfilePictureBox.Width - 3, ProfilePictureBox.Height - 3);
             Region region = new Region(gp);
             ProfilePictureBox.Region = region;
-            ProfilePictureBox.LoadAsync(m_LoggedInUser.PictureNormalURL);
+            try
+            {
+                ProfilePictureBox.LoadAsync(m_LoggedInUser.PictureNormalURL);
+            }
+            catch
+            {
+            }
         }
 
         private void showAlbumPhotosForm()
