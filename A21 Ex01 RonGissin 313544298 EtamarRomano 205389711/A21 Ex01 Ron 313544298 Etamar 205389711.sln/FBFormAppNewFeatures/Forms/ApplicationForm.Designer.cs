@@ -301,6 +301,7 @@ namespace FBAppUI.Forms
             this.Controls.Add(this.ShowAlbumsOfTextBox);
             this.Controls.Add(this.ShowAlbumOfLabel);
             this.Controls.Add(this.ProfilePictureBox);
+            this.ForeColor = System.Drawing.Color.Black;
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "ApplicationForm";
             this.Text = "Facebook Pics Explorer";

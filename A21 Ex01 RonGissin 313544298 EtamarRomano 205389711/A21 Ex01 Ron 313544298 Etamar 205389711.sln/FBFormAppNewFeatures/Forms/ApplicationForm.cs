@@ -4,6 +4,7 @@ using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 using FacebookWrapper.ObjectModel;
 using FBAppCore;
@@ -24,8 +25,9 @@ namespace FBAppUI.Forms
         private AppSettings m_AppSettings;
         private string m_LastAccessToken;
         private ISettingsFileHandler m_SettingsHandler;
+        private ThreadRunner m_ThreadRunner;
 
-        public ApplicationForm(LoginResultData i_LoginResultData, AppSettings i_AppSettings)
+        public ApplicationForm(LoginResultData i_LoginResultData, AppSettings i_AppSettings = null)
         {
             m_LoggedInUser = InputGuard.CheckNullArgument(i_LoginResultData, nameof(i_LoginResultData)).User;
             m_AppSettings = InputGuard.CheckNullArgument(i_AppSettings, nameof(i_AppSettings));
@@ -33,6 +35,7 @@ namespace FBAppUI.Forms
             m_LastAccessToken = i_LoginResultData.AccessToken;
             m_AlbumsUser = m_LoggedInUser;
             m_UserMatcher = new UserMatcher();
+            m_ThreadRunner = new ThreadRunner();
 
             InitializeComponent();
             CenterToScreen();
@@ -41,9 +44,14 @@ namespace FBAppUI.Forms
 
         public void InjectData()
         {
-            fetchProfilePicture();
-            fetchUserAlbums();
-            fetchMostLikedPhoto();
+            List<Action> methodsToRun = new List<Action>
+            {
+                fetchProfilePicture,
+                fetchUserAlbums,
+                fetchMostLikedPhoto
+            };
+
+            m_ThreadRunner.RunMethodsAsSeperateThreads(methodsToRun);
 
             HiLoggedUserLabel.Text = $"Hi, {m_LoggedInUser.FirstName}";
             AlbumsLabel.Text = $"{m_AlbumsUser.Name}'s Albums";
@@ -201,9 +209,8 @@ namespace FBAppUI.Forms
             {
                 MessageBox.Show("The server was throttled with requests.. some data will be missing.");
             }
-            
 
-            AlbumsListView.SetGrid(albumCoverPhotos, albumNames);
+            AlbumsListView.Invoke(new Action(() => AlbumsListView.SetGrid(albumCoverPhotos, albumNames)));
         }
 
         private void fetchProfilePicture()
@@ -211,7 +218,7 @@ namespace FBAppUI.Forms
             GraphicsPath gp = new GraphicsPath();
             gp.AddEllipse(0, 0, ProfilePictureBox.Width - 3, ProfilePictureBox.Height - 3);
             Region region = new Region(gp);
-            ProfilePictureBox.Region = region;
+            ProfilePictureBox.Invoke(new Action(() => ProfilePictureBox.Region = region));
             try
             {
                 ProfilePictureBox.LoadAsync(m_LoggedInUser.PictureNormalURL);
