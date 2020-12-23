@@ -17,7 +17,7 @@ namespace FBAppUI.Controls
             this.GridLines = true;
             this.LabelWrap = true;
             this.View = View.LargeIcon;
-        }
+        } 
 
         public void SetGrid(IEnumerable<Photo> i_Photos, IEnumerable<string> i_Captions = null)
         {

@@ -21,20 +21,22 @@ namespace FBAppUI.Forms
         private User m_AlbumsUser;
         private AlbumPhotosForm m_AlbumPhotosForm;
         private BestFriendForm m_BestFriendForm;
-        private UserMatcher m_UserMatcher;
+        private TrueLoveMatcher m_UserMatcher;
         private AppSettings m_AppSettings;
         private string m_LastAccessToken;
         private ISettingsFileHandler m_SettingsHandler;
         private ThreadRunner m_ThreadRunner;
+        private ApplicationFacade m_Facade;
 
         public ApplicationForm(LoginResultData i_LoginResultData, AppSettings i_AppSettings = null)
         {
-            m_LoggedInUser = InputGuard.CheckNullArgument(i_LoginResultData, nameof(i_LoginResultData)).User;
+            m_Facade = ApplicationFacade.Instance;
+            // m_LoggedInUser = InputGuard.CheckNullArgument(i_LoginResultData, nameof(i_LoginResultData)).User;
             m_AppSettings = InputGuard.CheckNullArgument(i_AppSettings, nameof(i_AppSettings));
             m_SettingsHandler = AppXmlSettingsHandler.Instance;
             m_LastAccessToken = i_LoginResultData.AccessToken;
             m_AlbumsUser = m_LoggedInUser;
-            m_UserMatcher = new UserMatcher();
+            m_UserMatcher = new TrueLoveMatcher();
             m_ThreadRunner = new ThreadRunner();
 
             InitializeComponent();
