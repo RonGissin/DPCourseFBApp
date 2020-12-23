@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 using FacebookWrapper.ObjectModel;
 using FBAppCore;
@@ -14,11 +15,13 @@ namespace FBAppUI.Forms
         private Album m_Album;
         private ImageForm m_ImageForm;
         private User m_LoggedInUser;
+        private ThreadRunner m_ThreadRunner;
 
         public AlbumPhotosForm(Album i_Album, User i_LoggedInUser)
         {
             m_LoggedInUser = InputGuard.CheckNullArgument(i_LoggedInUser, nameof(i_LoggedInUser));
             m_Album = InputGuard.CheckNullArgument(i_Album, nameof(i_Album));
+            m_ThreadRunner = new ThreadRunner();
             this.Text = m_Album.Name;
             InitializeComponent();
             CenterToScreen();
@@ -26,7 +29,16 @@ namespace FBAppUI.Forms
 
         public void InjectData()
         {
-            setAlbumToShow().withAlbumLikes().withAlbumLocation().withAlbumDescription().withAlbumTags();
+            List<Action> methodsToRun = new List<Action>
+            {
+                setAlbumToShow,
+                showAlbumLikes,
+                showAlbumLocation,
+                showAlbumDescription,
+                showAlbumTags
+            };
+
+            m_ThreadRunner.RunMethodsAsSeperateThreads(methodsToRun);
         }
 
         protected override void OnShown(EventArgs i_EventArgs)
@@ -43,21 +55,17 @@ namespace FBAppUI.Forms
             this.Cursor = Cursors.Default;
         }
 
-        private AlbumPhotosForm withAlbumDescription()
+        private void showAlbumDescription()
         {
-            AlbumDescriptionData.Text = m_Album.Description;
-
-            return this;
+            AlbumDescriptionData.Invoke(new Action(() => AlbumDescriptionData.Text = m_Album.Description));
         }
 
-        private AlbumPhotosForm withAlbumLocation()
+        private void showAlbumLocation()
         {
-            AlbumLocationData.Text = m_Album.Location;
-
-            return this;
+            AlbumLocationData.Invoke(new Action(() => AlbumLocationData.Text = m_Album.Location));
         }
 
-        private AlbumPhotosForm withAlbumTags()
+        private void showAlbumTags()
         {
             IEnumerable<string> taggedUsers = null;
 
@@ -71,32 +79,26 @@ namespace FBAppUI.Forms
                 {
                     foreach (string taggedUser in taggedUsers)
                     {
-                        AlbumTagsListBox.Items.Add(taggedUser);
+                        AlbumTagsListBox.Invoke(new Action(() => AlbumTagsListBox.Items.Add(taggedUser)));
                     }
                 }
             }
             catch
             {
             }
-
-            return this;
         }
 
-        private AlbumPhotosForm withAlbumLikes()
+        private void showAlbumLikes()
         {
             int totalAlbumLikes = m_Album.Photos.Select(photo => photo.LikedBy.Count()).Sum();
 
-            NumAlbumLikesLabel.Text = totalAlbumLikes.ToString();
-
-            return this;
+            NumAlbumLikesLabel.Invoke(new Action(() => NumAlbumLikesLabel.Text = totalAlbumLikes.ToString()));
         }
 
-        private AlbumPhotosForm setAlbumToShow()
+        private void setAlbumToShow()
         {
-            AlbumPhotosListView.SetGrid(m_Album.Photos);
-            Text = m_Album.Name;
-           
-            return this;
+            AlbumPhotosListView.Invoke(new Action(() => AlbumPhotosListView.SetGrid(m_Album.Photos)));
+            this.Invoke(new Action(() => Text = m_Album.Name));
         }
 
         private void showPhotoForm()

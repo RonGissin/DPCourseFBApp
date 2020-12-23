@@ -21,19 +21,23 @@ namespace FBAppUI.Forms
         private User m_AlbumsUser;
         private AlbumPhotosForm m_AlbumPhotosForm;
         private BestFriendForm m_BestFriendForm;
-        private UserMatcher m_UserMatcher;
+        private TrueLoveMatcher m_UserMatcher;
         private AppSettings m_AppSettings;
         private string m_LastAccessToken;
         private ISettingsFileHandler m_SettingsHandler;
+        private ThreadRunner m_ThreadRunner;
+        private ApplicationFacade m_Facade;
 
-        public ApplicationForm(LoginResultData i_LoginResultData, AppSettings i_AppSettings)
+        public ApplicationForm(LoginResultData i_LoginResultData, AppSettings i_AppSettings = null)
         {
-            m_LoggedInUser = InputGuard.CheckNullArgument(i_LoginResultData, nameof(i_LoginResultData)).User;
+            m_Facade = ApplicationFacade.Instance;
+            // m_LoggedInUser = InputGuard.CheckNullArgument(i_LoginResultData, nameof(i_LoginResultData)).User;
             m_AppSettings = InputGuard.CheckNullArgument(i_AppSettings, nameof(i_AppSettings));
             m_SettingsHandler = AppXmlSettingsHandler.Instance;
             m_LastAccessToken = i_LoginResultData.AccessToken;
             m_AlbumsUser = m_LoggedInUser;
-            m_UserMatcher = new UserMatcher();
+            m_UserMatcher = new TrueLoveMatcher();
+            m_ThreadRunner = new ThreadRunner();
 
             InitializeComponent();
             CenterToScreen();
@@ -42,9 +46,14 @@ namespace FBAppUI.Forms
 
         public void InjectData()
         {
-            fetchProfilePicture();
-            fetchUserAlbums();
-            fetchMostLikedPhoto();
+            List<Action> methodsToRun = new List<Action>
+            {
+                fetchProfilePicture,
+                fetchUserAlbums,
+                fetchMostLikedPhoto
+            };
+
+            m_ThreadRunner.RunMethodsAsSeperateThreads(methodsToRun);
 
             HiLoggedUserLabel.Text = $"Hi, {m_LoggedInUser.FirstName}";
             AlbumsLabel.Text = $"{m_AlbumsUser.Name}'s Albums";
@@ -169,14 +178,20 @@ namespace FBAppUI.Forms
 
         private void fetchMostLikedPhoto()
         {
-            Photo mostLikedPhoto = m_AlbumsUser.Albums
+            try
+            {
+                Photo mostLikedPhoto = m_AlbumsUser.Albums
                 .SelectMany(album => album.Photos)
                 .OrderByDescending(photo => photo.LikedBy.Count())
                 .FirstOrDefault();
 
-            if (mostLikedPhoto != null)
+                if (mostLikedPhoto != null)
+                {
+                    MostLikedPhotoPictureBox.LoadAsync(mostLikedPhoto.PictureNormalURL);
+                }
+            }
+            catch
             {
-                MostLikedPhotoPictureBox.LoadAsync(mostLikedPhoto.PictureNormalURL);
             }
 
             MostLikedPhotoPictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -184,10 +199,20 @@ namespace FBAppUI.Forms
 
         private void fetchUserAlbums()
         {
-            IEnumerable<Photo> albumCoverPhotos = m_AlbumsUser.Albums.Select(album => album.CoverPhoto);
-            IEnumerable<string> albumNames = m_AlbumsUser.Albums.Select(album => album.Name);
+            IEnumerable<Photo> albumCoverPhotos = null;
+            IEnumerable<string> albumNames = null;
 
-            AlbumsListView.SetGrid(albumCoverPhotos, albumNames);
+            try
+            {
+                albumCoverPhotos = m_AlbumsUser.Albums.Select(album => album.CoverPhoto);
+                albumNames = m_AlbumsUser.Albums.Select(album => album.Name);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("The server was throttled with requests.. some data will be missing.");
+            }
+
+            AlbumsListView.Invoke(new Action(() => AlbumsListView.SetGrid(albumCoverPhotos, albumNames)));
         }
 
         private void fetchProfilePicture()
@@ -195,8 +220,14 @@ namespace FBAppUI.Forms
             GraphicsPath gp = new GraphicsPath();
             gp.AddEllipse(0, 0, ProfilePictureBox.Width - 3, ProfilePictureBox.Height - 3);
             Region region = new Region(gp);
-            ProfilePictureBox.Region = region;
-            ProfilePictureBox.LoadAsync(m_LoggedInUser.PictureNormalURL);
+            ProfilePictureBox.Invoke(new Action(() => ProfilePictureBox.Region = region));
+            try
+            {
+                ProfilePictureBox.LoadAsync(m_LoggedInUser.PictureNormalURL);
+            }
+            catch
+            {
+            }
         }
 
         private void showAlbumPhotosForm()

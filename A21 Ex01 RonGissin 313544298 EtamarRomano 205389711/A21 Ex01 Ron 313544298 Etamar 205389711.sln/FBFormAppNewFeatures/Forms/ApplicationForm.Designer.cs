@@ -52,18 +52,20 @@ namespace FBAppUI.Forms
             this.FindLoveButton = new System.Windows.Forms.Button();
             this.BestMatchPictureBox = new System.Windows.Forms.PictureBox();
             this.RememberUserCheckBox = new System.Windows.Forms.CheckBox();
+            this.applicationFacadeBindingSource = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.ProfilePictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MostLikedPhotoPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BestMatchPictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.applicationFacadeBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // ProfilePictureBox
             // 
             this.ProfilePictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.ProfilePictureBox.Location = new System.Drawing.Point(14, 8);
-            this.ProfilePictureBox.Margin = new System.Windows.Forms.Padding(2);
+            this.ProfilePictureBox.Location = new System.Drawing.Point(9, 5);
+            this.ProfilePictureBox.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
             this.ProfilePictureBox.Name = "ProfilePictureBox";
-            this.ProfilePictureBox.Size = new System.Drawing.Size(155, 181);
+            this.ProfilePictureBox.Size = new System.Drawing.Size(104, 118);
             this.ProfilePictureBox.TabIndex = 1;
             this.ProfilePictureBox.TabStop = false;
             // 
@@ -71,20 +73,20 @@ namespace FBAppUI.Forms
             // 
             this.ShowAlbumOfLabel.AutoSize = true;
             this.ShowAlbumOfLabel.Font = new System.Drawing.Font("Rockwell", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ShowAlbumOfLabel.Location = new System.Drawing.Point(212, 41);
-            this.ShowAlbumOfLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.ShowAlbumOfLabel.Location = new System.Drawing.Point(141, 27);
+            this.ShowAlbumOfLabel.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.ShowAlbumOfLabel.Name = "ShowAlbumOfLabel";
-            this.ShowAlbumOfLabel.Size = new System.Drawing.Size(152, 22);
+            this.ShowAlbumOfLabel.Size = new System.Drawing.Size(108, 17);
             this.ShowAlbumOfLabel.TabIndex = 2;
             this.ShowAlbumOfLabel.Text = "Show albums of";
             // 
             // ShowAlbumsOfTextBox
             // 
             this.ShowAlbumsOfTextBox.BackColor = System.Drawing.Color.PowderBlue;
-            this.ShowAlbumsOfTextBox.Location = new System.Drawing.Point(376, 41);
-            this.ShowAlbumsOfTextBox.Margin = new System.Windows.Forms.Padding(2);
+            this.ShowAlbumsOfTextBox.Location = new System.Drawing.Point(251, 27);
+            this.ShowAlbumsOfTextBox.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
             this.ShowAlbumsOfTextBox.Name = "ShowAlbumsOfTextBox";
-            this.ShowAlbumsOfTextBox.Size = new System.Drawing.Size(313, 26);
+            this.ShowAlbumsOfTextBox.Size = new System.Drawing.Size(210, 20);
             this.ShowAlbumsOfTextBox.TabIndex = 3;
             // 
             // ChangeAlbumOwnerButton
@@ -92,10 +94,10 @@ namespace FBAppUI.Forms
             this.ChangeAlbumOwnerButton.BackColor = System.Drawing.Color.LightYellow;
             this.ChangeAlbumOwnerButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.ChangeAlbumOwnerButton.Font = new System.Drawing.Font("Rockwell", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ChangeAlbumOwnerButton.Location = new System.Drawing.Point(693, 35);
-            this.ChangeAlbumOwnerButton.Margin = new System.Windows.Forms.Padding(2);
+            this.ChangeAlbumOwnerButton.Location = new System.Drawing.Point(462, 23);
+            this.ChangeAlbumOwnerButton.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
             this.ChangeAlbumOwnerButton.Name = "ChangeAlbumOwnerButton";
-            this.ChangeAlbumOwnerButton.Size = new System.Drawing.Size(116, 38);
+            this.ChangeAlbumOwnerButton.Size = new System.Drawing.Size(77, 25);
             this.ChangeAlbumOwnerButton.TabIndex = 4;
             this.ChangeAlbumOwnerButton.Text = "Apply";
             this.ChangeAlbumOwnerButton.UseVisualStyleBackColor = false;
@@ -109,10 +111,10 @@ namespace FBAppUI.Forms
             this.AlbumsLabel.AutoSize = true;
             this.AlbumsLabel.BackColor = System.Drawing.Color.LightYellow;
             this.AlbumsLabel.Font = new System.Drawing.Font("Rockwell", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.AlbumsLabel.Location = new System.Drawing.Point(742, 122);
-            this.AlbumsLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.AlbumsLabel.Location = new System.Drawing.Point(495, 79);
+            this.AlbumsLabel.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.AlbumsLabel.Name = "AlbumsLabel";
-            this.AlbumsLabel.Size = new System.Drawing.Size(144, 41);
+            this.AlbumsLabel.Size = new System.Drawing.Size(98, 27);
             this.AlbumsLabel.TabIndex = 5;
             this.AlbumsLabel.Text = "Albums";
             // 
@@ -125,10 +127,10 @@ namespace FBAppUI.Forms
             this.AlbumsListView.Cursor = System.Windows.Forms.Cursors.Hand;
             this.AlbumsListView.GridLines = true;
             this.AlbumsListView.HideSelection = false;
-            this.AlbumsListView.Location = new System.Drawing.Point(611, 182);
-            this.AlbumsListView.Margin = new System.Windows.Forms.Padding(2);
+            this.AlbumsListView.Location = new System.Drawing.Point(407, 118);
+            this.AlbumsListView.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
             this.AlbumsListView.Name = "AlbumsListView";
-            this.AlbumsListView.Size = new System.Drawing.Size(625, 604);
+            this.AlbumsListView.Size = new System.Drawing.Size(418, 394);
             this.AlbumsListView.TabIndex = 6;
             this.AlbumsListView.UseCompatibleStateImageBehavior = false;
             this.AlbumsListView.DoubleClick += new System.EventHandler(this.albumsListView_DoubleClick);
@@ -136,10 +138,12 @@ namespace FBAppUI.Forms
             // HiLoggedUserLabel
             // 
             this.HiLoggedUserLabel.AutoSize = true;
+            this.HiLoggedUserLabel.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.applicationFacadeBindingSource, "LoggedInUser", true));
             this.HiLoggedUserLabel.Font = new System.Drawing.Font("Rockwell", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.HiLoggedUserLabel.Location = new System.Drawing.Point(12, 191);
+            this.HiLoggedUserLabel.Location = new System.Drawing.Point(8, 124);
+            this.HiLoggedUserLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.HiLoggedUserLabel.Name = "HiLoggedUserLabel";
-            this.HiLoggedUserLabel.Size = new System.Drawing.Size(199, 22);
+            this.HiLoggedUserLabel.Size = new System.Drawing.Size(141, 17);
             this.HiLoggedUserLabel.TabIndex = 7;
             this.HiLoggedUserLabel.Text = "HiLoggedInUserText";
             // 
@@ -153,9 +157,10 @@ namespace FBAppUI.Forms
             // 
             this.BestFriendLabel.AutoSize = true;
             this.BestFriendLabel.Font = new System.Drawing.Font("Rockwell", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BestFriendLabel.Location = new System.Drawing.Point(12, 372);
+            this.BestFriendLabel.Location = new System.Drawing.Point(8, 242);
+            this.BestFriendLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.BestFriendLabel.Name = "BestFriendLabel";
-            this.BestFriendLabel.Size = new System.Drawing.Size(279, 22);
+            this.BestFriendLabel.Size = new System.Drawing.Size(200, 17);
             this.BestFriendLabel.TabIndex = 8;
             this.BestFriendLabel.Text = "Wanna find your best friend ?";
             // 
@@ -164,9 +169,10 @@ namespace FBAppUI.Forms
             this.BestFriendButton.BackColor = System.Drawing.Color.LightYellow;
             this.BestFriendButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.BestFriendButton.Font = new System.Drawing.Font("Rockwell", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BestFriendButton.Location = new System.Drawing.Point(320, 360);
+            this.BestFriendButton.Location = new System.Drawing.Point(213, 234);
+            this.BestFriendButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.BestFriendButton.Name = "BestFriendButton";
-            this.BestFriendButton.Size = new System.Drawing.Size(125, 47);
+            this.BestFriendButton.Size = new System.Drawing.Size(83, 31);
             this.BestFriendButton.TabIndex = 9;
             this.BestFriendButton.Text = "Show me !";
             this.BestFriendButton.UseVisualStyleBackColor = false;
@@ -176,17 +182,19 @@ namespace FBAppUI.Forms
             // 
             this.MostLikedPhotoLabel.AutoSize = true;
             this.MostLikedPhotoLabel.Font = new System.Drawing.Font("Rockwell", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.MostLikedPhotoLabel.Location = new System.Drawing.Point(398, 576);
+            this.MostLikedPhotoLabel.Location = new System.Drawing.Point(265, 374);
+            this.MostLikedPhotoLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.MostLikedPhotoLabel.Name = "MostLikedPhotoLabel";
-            this.MostLikedPhotoLabel.Size = new System.Drawing.Size(163, 22);
+            this.MostLikedPhotoLabel.Size = new System.Drawing.Size(116, 17);
             this.MostLikedPhotoLabel.TabIndex = 10;
             this.MostLikedPhotoLabel.Text = "Most liked photo";
             // 
             // MostLikedPhotoPictureBox
             // 
-            this.MostLikedPhotoPictureBox.Location = new System.Drawing.Point(402, 619);
+            this.MostLikedPhotoPictureBox.Location = new System.Drawing.Point(268, 402);
+            this.MostLikedPhotoPictureBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.MostLikedPhotoPictureBox.Name = "MostLikedPhotoPictureBox";
-            this.MostLikedPhotoPictureBox.Size = new System.Drawing.Size(170, 167);
+            this.MostLikedPhotoPictureBox.Size = new System.Drawing.Size(113, 109);
             this.MostLikedPhotoPictureBox.TabIndex = 11;
             this.MostLikedPhotoPictureBox.TabStop = false;
             // 
@@ -195,9 +203,10 @@ namespace FBAppUI.Forms
             this.LogoutButton.BackColor = System.Drawing.Color.LightYellow;
             this.LogoutButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.LogoutButton.Font = new System.Drawing.Font("Rockwell", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LogoutButton.Location = new System.Drawing.Point(16, 226);
+            this.LogoutButton.Location = new System.Drawing.Point(11, 147);
+            this.LogoutButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.LogoutButton.Name = "LogoutButton";
-            this.LogoutButton.Size = new System.Drawing.Size(141, 45);
+            this.LogoutButton.Size = new System.Drawing.Size(94, 29);
             this.LogoutButton.TabIndex = 12;
             this.LogoutButton.Text = "Logout";
             this.LogoutButton.UseVisualStyleBackColor = false;
@@ -206,9 +215,10 @@ namespace FBAppUI.Forms
             // 
             this.BestMatchLabel.AutoSize = true;
             this.BestMatchLabel.Font = new System.Drawing.Font("Rockwell", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BestMatchLabel.Location = new System.Drawing.Point(12, 512);
+            this.BestMatchLabel.Location = new System.Drawing.Point(8, 333);
+            this.BestMatchLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.BestMatchLabel.Name = "BestMatchLabel";
-            this.BestMatchLabel.Size = new System.Drawing.Size(260, 22);
+            this.BestMatchLabel.Size = new System.Drawing.Size(188, 17);
             this.BestMatchLabel.TabIndex = 13;
             this.BestMatchLabel.Text = "Find true love through likes";
             // 
@@ -216,9 +226,10 @@ namespace FBAppUI.Forms
             // 
             this.InterestedInLabel.AutoSize = true;
             this.InterestedInLabel.Font = new System.Drawing.Font("Rockwell", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.InterestedInLabel.Location = new System.Drawing.Point(12, 549);
+            this.InterestedInLabel.Location = new System.Drawing.Point(8, 357);
+            this.InterestedInLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.InterestedInLabel.Name = "InterestedInLabel";
-            this.InterestedInLabel.Size = new System.Drawing.Size(174, 22);
+            this.InterestedInLabel.Size = new System.Drawing.Size(124, 17);
             this.InterestedInLabel.TabIndex = 14;
             this.InterestedInLabel.Text = "I am interested in:";
             // 
@@ -226,9 +237,10 @@ namespace FBAppUI.Forms
             // 
             this.MaleCheckBox.AutoSize = true;
             this.MaleCheckBox.Font = new System.Drawing.Font("Rockwell", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.MaleCheckBox.Location = new System.Drawing.Point(16, 595);
+            this.MaleCheckBox.Location = new System.Drawing.Point(11, 387);
+            this.MaleCheckBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.MaleCheckBox.Name = "MaleCheckBox";
-            this.MaleCheckBox.Size = new System.Drawing.Size(82, 26);
+            this.MaleCheckBox.Size = new System.Drawing.Size(58, 21);
             this.MaleCheckBox.TabIndex = 15;
             this.MaleCheckBox.Text = "Male";
             this.MaleCheckBox.UseVisualStyleBackColor = true;
@@ -237,9 +249,10 @@ namespace FBAppUI.Forms
             // 
             this.FemaleCheckBox.AutoSize = true;
             this.FemaleCheckBox.Font = new System.Drawing.Font("Rockwell", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FemaleCheckBox.Location = new System.Drawing.Point(16, 627);
+            this.FemaleCheckBox.Location = new System.Drawing.Point(11, 408);
+            this.FemaleCheckBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.FemaleCheckBox.Name = "FemaleCheckBox";
-            this.FemaleCheckBox.Size = new System.Drawing.Size(103, 26);
+            this.FemaleCheckBox.Size = new System.Drawing.Size(74, 21);
             this.FemaleCheckBox.TabIndex = 15;
             this.FemaleCheckBox.Text = "Female";
             this.FemaleCheckBox.UseVisualStyleBackColor = true;
@@ -249,9 +262,10 @@ namespace FBAppUI.Forms
             this.FindLoveButton.BackColor = System.Drawing.Color.LightYellow;
             this.FindLoveButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.FindLoveButton.Font = new System.Drawing.Font("Rockwell", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FindLoveButton.Location = new System.Drawing.Point(147, 595);
+            this.FindLoveButton.Location = new System.Drawing.Point(98, 387);
+            this.FindLoveButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.FindLoveButton.Name = "FindLoveButton";
-            this.FindLoveButton.Size = new System.Drawing.Size(125, 47);
+            this.FindLoveButton.Size = new System.Drawing.Size(83, 31);
             this.FindLoveButton.TabIndex = 9;
             this.FindLoveButton.Text = "Find Out";
             this.FindLoveButton.UseVisualStyleBackColor = false;
@@ -259,9 +273,10 @@ namespace FBAppUI.Forms
             // 
             // BestMatchPictureBox
             // 
-            this.BestMatchPictureBox.Location = new System.Drawing.Point(119, 660);
+            this.BestMatchPictureBox.Location = new System.Drawing.Point(79, 429);
+            this.BestMatchPictureBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.BestMatchPictureBox.Name = "BestMatchPictureBox";
-            this.BestMatchPictureBox.Size = new System.Drawing.Size(153, 126);
+            this.BestMatchPictureBox.Size = new System.Drawing.Size(102, 82);
             this.BestMatchPictureBox.TabIndex = 16;
             this.BestMatchPictureBox.TabStop = false;
             // 
@@ -269,19 +284,24 @@ namespace FBAppUI.Forms
             // 
             this.RememberUserCheckBox.AutoSize = true;
             this.RememberUserCheckBox.Font = new System.Drawing.Font("Rockwell", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RememberUserCheckBox.Location = new System.Drawing.Point(16, 291);
+            this.RememberUserCheckBox.Location = new System.Drawing.Point(11, 189);
+            this.RememberUserCheckBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.RememberUserCheckBox.Name = "RememberUserCheckBox";
-            this.RememberUserCheckBox.Size = new System.Drawing.Size(169, 26);
+            this.RememberUserCheckBox.Size = new System.Drawing.Size(122, 21);
             this.RememberUserCheckBox.TabIndex = 17;
             this.RememberUserCheckBox.Text = "Remember me";
             this.RememberUserCheckBox.UseVisualStyleBackColor = true;
             // 
+            // applicationFacadeBindingSource
+            // 
+            this.applicationFacadeBindingSource.DataSource = typeof(FBAppCore.ApplicationFacade);
+            // 
             // ApplicationForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.PowderBlue;
-            this.ClientSize = new System.Drawing.Size(1317, 830);
+            this.ClientSize = new System.Drawing.Size(878, 539);
             this.Controls.Add(this.RememberUserCheckBox);
             this.Controls.Add(this.BestMatchPictureBox);
             this.Controls.Add(this.FemaleCheckBox);
@@ -301,12 +321,14 @@ namespace FBAppUI.Forms
             this.Controls.Add(this.ShowAlbumsOfTextBox);
             this.Controls.Add(this.ShowAlbumOfLabel);
             this.Controls.Add(this.ProfilePictureBox);
-            this.Margin = new System.Windows.Forms.Padding(2);
+            this.ForeColor = System.Drawing.Color.Black;
+            this.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
             this.Name = "ApplicationForm";
             this.Text = "Facebook Pics Explorer";
             ((System.ComponentModel.ISupportInitialize)(this.ProfilePictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.MostLikedPhotoPictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.BestMatchPictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.applicationFacadeBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -333,5 +355,6 @@ namespace FBAppUI.Forms
         private System.Windows.Forms.Button FindLoveButton;
         private System.Windows.Forms.PictureBox BestMatchPictureBox;
         private System.Windows.Forms.CheckBox RememberUserCheckBox;
+        private System.Windows.Forms.BindingSource applicationFacadeBindingSource;
     }
 }

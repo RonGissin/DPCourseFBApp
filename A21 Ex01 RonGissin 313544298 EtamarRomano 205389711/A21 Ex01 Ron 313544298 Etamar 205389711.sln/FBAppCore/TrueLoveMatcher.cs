@@ -4,7 +4,7 @@ using FacebookWrapper.ObjectModel;
 
 namespace FBAppCore
 {
-    public class UserMatcher 
+    public class TrueLoveMatcher : IUserMatcher
     {
         public User FindMatch(User i_UserToMatchTo, Func<User, bool> i_FilterFunc)
         {

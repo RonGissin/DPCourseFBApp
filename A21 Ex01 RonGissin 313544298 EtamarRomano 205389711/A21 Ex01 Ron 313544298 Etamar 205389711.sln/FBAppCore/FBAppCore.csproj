@@ -49,22 +49,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApplicationFacade.cs" />
     <Compile Include="AppSettings\AppSettings.cs" />
     <Compile Include="AppSettings\AppXmlSettingsHandler.cs" />
     <Compile Include="AppSettings\ISettingsFileHandler.cs" />
+    <Compile Include="BestFriendMatcher.cs" />
+    <Compile Include="eUserMatcherType.cs" />
     <Compile Include="IDataInjectable.cs" />
     <Compile Include="ILikeHandler.cs" />
     <Compile Include="IPhotoGrid.cs" />
+    <Compile Include="IUserMatcher.cs" />
     <Compile Include="LikeHandler.cs" />
     <Compile Include="Login\FacebookLoginClient.cs" />
     <Compile Include="Login\ILoginClient.cs" />
     <Compile Include="Login\LoginResultData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UserMatcher.cs" />
+    <Compile Include="ThreadRunner.cs" />
+    <Compile Include="TrueLoveMatcher.cs" />
+    <Compile Include="UserMatcherFactory.cs" />
     <Compile Include="Validation\InputGuard.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
