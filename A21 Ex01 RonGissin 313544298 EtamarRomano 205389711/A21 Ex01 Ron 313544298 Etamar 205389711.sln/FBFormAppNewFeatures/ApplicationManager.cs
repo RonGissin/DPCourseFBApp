@@ -4,7 +4,7 @@ using System.Windows.Forms;
 using FacebookWrapper;
 using FBAppCore.AppSettings;
 using FBAppCore.Login;
-using FBAppInfra.Validation;
+using FBAppCore.Validation;
 using FBAppUI.Forms;
 
 namespace FBAppUI

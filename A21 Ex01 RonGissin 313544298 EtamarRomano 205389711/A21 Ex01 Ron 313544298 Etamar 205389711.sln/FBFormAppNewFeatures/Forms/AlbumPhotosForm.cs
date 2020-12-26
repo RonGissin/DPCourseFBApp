@@ -6,7 +6,8 @@ using System.Threading;
 using System.Windows.Forms;
 using FacebookWrapper.ObjectModel;
 using FBAppCore;
-using FBAppInfra.Validation;
+using FBAppCore.ThreadingUtils;
+using FBAppCore.Validation;
 
 namespace FBAppUI.Forms
 {
@@ -14,12 +15,12 @@ namespace FBAppUI.Forms
     {
         private Album m_Album;
         private ImageForm m_ImageForm;
-        private User m_LoggedInUser;
+        private ApplicationLogicHandler m_LogicHandler;
         private ThreadRunner m_ThreadRunner;
 
-        public AlbumPhotosForm(Album i_Album, User i_LoggedInUser)
+        public AlbumPhotosForm(Album i_Album)
         {
-            m_LoggedInUser = InputGuard.CheckNullArgument(i_LoggedInUser, nameof(i_LoggedInUser));
+            m_LogicHandler = ApplicationLogicHandler.Instance;
             m_Album = InputGuard.CheckNullArgument(i_Album, nameof(i_Album));
             m_ThreadRunner = new ThreadRunner();
             this.Text = m_Album.Name;
@@ -106,7 +107,7 @@ namespace FBAppUI.Forms
             var item = AlbumPhotosListView.SelectedItems[0];
             Photo photoToShow = m_Album.Photos.ElementAt(item.ImageIndex);
 
-            m_ImageForm = new ImageForm(photoToShow, m_LoggedInUser);
+            m_ImageForm = new ImageForm(photoToShow);
             m_ImageForm.ShowDialog();
             m_ImageForm.Dispose();
         }

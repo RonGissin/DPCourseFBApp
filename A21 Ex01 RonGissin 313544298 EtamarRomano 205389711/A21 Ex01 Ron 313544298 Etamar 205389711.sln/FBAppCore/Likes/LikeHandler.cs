@@ -1,8 +1,8 @@
 ﻿using FacebookWrapper.ObjectModel;
 
-namespace FBAppCore
+namespace FBAppCore.Likes
 {
-    public class LikeHandler : ILikeHandler
+    internal class LikeHandler : ILikeHandler
     {
         public bool IsLikedBy(PostedItem i_PostedItem, User i_User)
         {

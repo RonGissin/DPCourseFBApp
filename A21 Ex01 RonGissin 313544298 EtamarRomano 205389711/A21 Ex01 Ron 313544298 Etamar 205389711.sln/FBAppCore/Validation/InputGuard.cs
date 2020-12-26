@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FBAppInfra.Validation
+namespace FBAppCore.Validation
 {
     public static class InputGuard
     {

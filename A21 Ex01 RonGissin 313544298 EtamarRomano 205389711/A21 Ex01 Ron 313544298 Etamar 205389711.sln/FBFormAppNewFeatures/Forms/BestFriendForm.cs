@@ -2,7 +2,7 @@
 using System.Windows.Forms;
 using FacebookWrapper.ObjectModel;
 using FBAppCore;
-using FBAppInfra.Validation;
+using FBAppCore.Validation;
 
 namespace FBAppUI.Forms
 {

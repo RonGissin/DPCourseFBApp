@@ -4,7 +4,8 @@ using System.Threading;
 using System.Windows.Forms;
 using FacebookWrapper.ObjectModel;
 using FBAppCore;
-using FBAppInfra.Validation;
+using FBAppCore.ThreadingUtils;
+using FBAppCore.Validation;
 
 namespace FBAppUI.Forms
 {
@@ -13,15 +14,16 @@ namespace FBAppUI.Forms
         private const string k_LikeUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Bot%C3%B3n_Me_gusta.svg/1200px-Bot%C3%B3n_Me_gusta.svg.png";
         private const string k_UnlikeUrl = "https://humans-first.com/wp-content/uploads/2018/11/How-to-Unlike-Multiple-Facebook-Pages-at-Once-e1542361859101.png";
         private Photo m_Photo;
-        private User m_LoggedInUser;
-        private ILikeHandler m_LikeHandler;
+        private ApplicationLogicHandler m_LogicHandler;
+        private ThreadRunner m_ThreadRunner;
         private bool m_IsImageLiked;
 
-        public ImageForm(Photo i_Photo, User i_LoggedInUser)
+        public ImageForm(Photo i_Photo)
         {
+            m_LogicHandler = ApplicationLogicHandler.Instance;
             m_Photo = InputGuard.CheckNullArgument(i_Photo, nameof(i_Photo));
-            m_LoggedInUser = InputGuard.CheckNullArgument(i_LoggedInUser, nameof(i_LoggedInUser));
-            m_LikeHandler = new LikeHandler();
+            m_ThreadRunner = new ThreadRunner();
+
             m_IsImageLiked = false;
 
             InitializeComponent();
@@ -45,7 +47,7 @@ namespace FBAppUI.Forms
 
         private bool isPhotoLikedByUser()
         {
-            return m_LikeHandler.IsLikedBy(m_Photo, m_LoggedInUser);
+            return m_LogicHandler.IsItemLikedByUser(m_Photo, m_LogicHandler.LoggedInUser);
         }
 
         private void likePictureBox_DoubleClick(object i_Sender, EventArgs i_EventArgs)
@@ -75,6 +77,8 @@ namespace FBAppUI.Forms
             }
 
             LikePictureBox.Refresh();
+
+            m_ThreadRunner.RunMethodAsSeperateThread(bindPhotoToBindingSource);
         }
 
         private void postComment()
@@ -115,12 +119,12 @@ namespace FBAppUI.Forms
                 if (!m_IsImageLiked)
                 {
                     LikePictureBox.LoadAsync(k_UnlikeUrl);
-                    m_LikeHandler.Like(m_Photo);
+                    m_LogicHandler.LikeItem(m_Photo);
                 }
                 else
                 {
                     LikePictureBox.LoadAsync(k_LikeUrl);
-                    m_LikeHandler.Unlike(m_Photo);
+                    m_LogicHandler.UnlikeItem(m_Photo);
                 }
             }
             catch
@@ -131,5 +135,8 @@ namespace FBAppUI.Forms
                 LikePictureBox.Refresh();
             }
         }
+
+        private void bindPhotoToBindingSource()
+            => CommentsListBox.Invoke(new Action(() => commentsBindingSource.DataSource = m_Photo));
     }
 }

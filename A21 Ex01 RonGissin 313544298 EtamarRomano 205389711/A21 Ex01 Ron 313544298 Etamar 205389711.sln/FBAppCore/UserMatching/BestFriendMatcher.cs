@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FBAppCore
+namespace FBAppCore.UserMatching
 {
-    public class BestFriendMatcher : IUserMatcher
+    internal class BestFriendMatcher : IUserMatcher
     {
         public User FindMatch(User i_UserToMatchTo, Func<User, bool> i_FilterFunc)
         {

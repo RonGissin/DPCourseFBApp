@@ -53,6 +53,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationManager.cs" />
+    <Compile Include="Controls\ClickLimitButtonProxy.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\RoundButton.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -116,7 +119,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="Properties\DataSources\FBAppCore.ApplicationFacade.datasource" />
+    <None Include="Properties\DataSources\FacebookWrapper.ObjectModel.Photo.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

@@ -4,39 +4,35 @@ using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
-using System.Threading;
 using System.Windows.Forms;
 using FacebookWrapper.ObjectModel;
 using FBAppCore;
 using FBAppCore.AppSettings;
 using FBAppCore.Login;
-using FBAppInfra.Validation;
+using FBAppCore.ThreadingUtils;
+using FBAppCore.Validation;
 
 namespace FBAppUI.Forms
 {
     public partial class ApplicationForm : Form, IDataInjectable
     {
         private const string k_SettingsNotSavedMessage = "Your settings couldn't be saved for some reason.. you will have to reconnect next time !";
-        private User m_LoggedInUser;
-        private User m_AlbumsUser;
         private AlbumPhotosForm m_AlbumPhotosForm;
         private BestFriendForm m_BestFriendForm;
-        private TrueLoveMatcher m_UserMatcher;
         private AppSettings m_AppSettings;
         private string m_LastAccessToken;
         private ISettingsFileHandler m_SettingsHandler;
         private ThreadRunner m_ThreadRunner;
-        private ApplicationFacade m_Facade;
+        private ApplicationLogicHandler m_LogicHandler;
 
         public ApplicationForm(LoginResultData i_LoginResultData, AppSettings i_AppSettings = null)
         {
-            m_Facade = ApplicationFacade.Instance;
-            // m_LoggedInUser = InputGuard.CheckNullArgument(i_LoginResultData, nameof(i_LoginResultData)).User;
+            m_LogicHandler = ApplicationLogicHandler.Instance;
+            m_LogicHandler.LoggedInUser = i_LoginResultData.User;
+            m_LogicHandler.AlbumUser = i_LoginResultData.User;
             m_AppSettings = InputGuard.CheckNullArgument(i_AppSettings, nameof(i_AppSettings));
             m_SettingsHandler = AppXmlSettingsHandler.Instance;
             m_LastAccessToken = i_LoginResultData.AccessToken;
-            m_AlbumsUser = m_LoggedInUser;
-            m_UserMatcher = new TrueLoveMatcher();
             m_ThreadRunner = new ThreadRunner();
 
             InitializeComponent();
@@ -48,15 +44,14 @@ namespace FBAppUI.Forms
         {
             List<Action> methodsToRun = new List<Action>
             {
-                fetchProfilePicture,
                 fetchUserAlbums,
-                fetchMostLikedPhoto
+                fetchMostLikedPhoto,
+                fetchProfilePicture
             };
 
             m_ThreadRunner.RunMethodsAsSeperateThreads(methodsToRun);
 
-            HiLoggedUserLabel.Text = $"Hi, {m_LoggedInUser.FirstName}";
-            AlbumsLabel.Text = $"{m_AlbumsUser.Name}'s Albums";
+            AlbumsLabel.Text = $"{m_LogicHandler.AlbumUser.Name}'s Albums";
         }
 
         protected override void OnShown(EventArgs i_EventArgs)
@@ -102,17 +97,16 @@ namespace FBAppUI.Forms
         private void changeAlbumOwnerButton_Click(object i_Sender, EventArgs i_EventArgs)
         {
             string potentialFriendName = ShowAlbumsOfTextBox.Text;
-            User potentialFriend = m_LoggedInUser.Friends.Where(friend => friend.Name.Contains(potentialFriendName)).FirstOrDefault();
+            User potentialFriend = m_LogicHandler.LoggedInUser.Friends.Where(friend => friend.Name.Contains(potentialFriendName)).FirstOrDefault();
 
             if (potentialFriend != null)
             {
-                m_AlbumsUser = potentialFriend;
+                m_LogicHandler.AlbumUser = potentialFriend;
                 fetchUserAlbums();
-                fetchMostLikedPhoto();
             }
             else
             {
-                MessageBox.Show($"The current user {m_LoggedInUser.Name} has no friend named {potentialFriendName}");
+                MessageBox.Show($"The current user {m_LogicHandler.LoggedInUser.Name} has no friend named {potentialFriendName}");
             }
         }
 
@@ -122,80 +116,6 @@ namespace FBAppUI.Forms
             Dispose();
             Close();
         }
-        
-        private void bestFriendButton_Click(object i_Sender, EventArgs i_EventArgs)
-        {
-            User bestFriend;
-
-            try
-            {
-                bestFriend = m_LoggedInUser.Albums
-                .SelectMany(album => album.Photos)
-                .SelectMany(photo => photo.Tags)
-                .GroupBy(tag => tag.User.Name)
-                .OrderByDescending(gp => gp.Count())
-                .FirstOrDefault()
-                .FirstOrDefault()
-                ?.User;
-            } 
-            catch
-            {
-                bestFriend = m_LoggedInUser;
-            }
-            
-            m_BestFriendForm = new BestFriendForm(bestFriend);
-            m_BestFriendForm.ShowDialog();
-        }
-
-        private void findLoveButton_Click(object i_Sender, EventArgs i_EventArgs)
-        {
-            User bestMatch;
-            bool isMaleChecked = MaleCheckBox.Checked;
-            bool isFemaleChecked = FemaleCheckBox.Checked;
-
-            if (!isFemaleChecked && !isMaleChecked)
-            {
-                MessageBox.Show("Please state what gender you prefer");
-                return;
-            }
-
-            if (isFemaleChecked && isMaleChecked)
-            {
-                bestMatch = m_UserMatcher.FindMatch(m_LoggedInUser, (user) => true);
-            }
-            else if (isMaleChecked && !isFemaleChecked)
-            {
-                bestMatch = m_UserMatcher.FindMatch(m_LoggedInUser, (user) => user.Gender == User.eGender.male);
-            }
-            else
-            {
-                bestMatch = m_UserMatcher.FindMatch(m_LoggedInUser, (user) => user.Gender == User.eGender.female);
-            }
-
-            BestMatchPictureBox.LoadAsync(bestMatch.PictureNormalURL);
-            BestMatchPictureBox.Refresh();
-        }
-
-        private void fetchMostLikedPhoto()
-        {
-            try
-            {
-                Photo mostLikedPhoto = m_AlbumsUser.Albums
-                .SelectMany(album => album.Photos)
-                .OrderByDescending(photo => photo.LikedBy.Count())
-                .FirstOrDefault();
-
-                if (mostLikedPhoto != null)
-                {
-                    MostLikedPhotoPictureBox.LoadAsync(mostLikedPhoto.PictureNormalURL);
-                }
-            }
-            catch
-            {
-            }
-
-            MostLikedPhotoPictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
-        }
 
         private void fetchUserAlbums()
         {
@@ -204,8 +124,8 @@ namespace FBAppUI.Forms
 
             try
             {
-                albumCoverPhotos = m_AlbumsUser.Albums.Select(album => album.CoverPhoto);
-                albumNames = m_AlbumsUser.Albums.Select(album => album.Name);
+                albumCoverPhotos = m_LogicHandler.AlbumUser.Albums.Select(album => album.CoverPhoto);
+                albumNames = m_LogicHandler.AlbumUser.Albums.Select(album => album.Name);
             }
             catch (Exception)
             {
@@ -223,19 +143,77 @@ namespace FBAppUI.Forms
             ProfilePictureBox.Invoke(new Action(() => ProfilePictureBox.Region = region));
             try
             {
-                ProfilePictureBox.LoadAsync(m_LoggedInUser.PictureNormalURL);
+                ProfilePictureBox.LoadAsync(m_LogicHandler.LoggedInUser.PictureNormalURL);
+            }
+            catch
+            {
+            }
+
+            HiLoggedUserLabel.Invoke(new Action(() => HiLoggedUserLabel.Text = m_LogicHandler.LoggedInUser.Name));
+        }
+
+        private void showAlbumPhotosForm()
+        {
+            string albumToShowName = AlbumsListView.SelectedItems[0].SubItems[0].Text;
+            Album albumToShow = m_LogicHandler.AlbumUser.Albums.Where(album => album.Name.Equals(albumToShowName)).FirstOrDefault();
+            m_AlbumPhotosForm = new AlbumPhotosForm(albumToShow);
+            m_AlbumPhotosForm.ShowDialog();
+        }
+
+        private void fetchMostLikedPhoto()
+        {
+            string mostLikedPhotoUrl = null;
+
+            try
+            {
+                mostLikedPhotoUrl = m_LogicHandler.LoggedInUser.Albums
+                .SelectMany(album => album.Photos)
+                .OrderByDescending(photo => photo.LikedBy.Count())
+                .FirstOrDefault()?
+                .PictureNormalURL;
+
+                MostLikedPhotoPictureBox.Invoke(new Action(() => MostLikedPhotoPictureBox.LoadAsync(mostLikedPhotoUrl)));
             }
             catch
             {
             }
         }
 
-        private void showAlbumPhotosForm()
+        private void bestFriendButton_Click(object sender, EventArgs e)
         {
-            string albumToShowName = AlbumsListView.SelectedItems[0].SubItems[0].Text;
-            Album albumToShow = m_AlbumsUser.Albums.Where(album => album.Name.Equals(albumToShowName)).FirstOrDefault();
-            m_AlbumPhotosForm = new AlbumPhotosForm(albumToShow, m_LoggedInUser);
-            m_AlbumPhotosForm.ShowDialog();
+            User bestFriend = m_LogicHandler.FindBestFriend(m_LogicHandler.LoggedInUser, (user) => true);
+
+            m_BestFriendForm = new BestFriendForm(bestFriend);
+            m_BestFriendForm.ShowDialog();
+        }
+
+        private void findLoveButton_Click(object sender, EventArgs e)
+        {
+            User bestMatch;
+            bool isMaleChecked = MaleCheckBox.Checked;
+            bool isFemaleChecked = FemaleCheckBox.Checked;
+
+            if (!isFemaleChecked && !isMaleChecked)
+            {
+                MessageBox.Show("Please state what gender you prefer");
+                return;
+            }
+
+            if (isFemaleChecked && isMaleChecked)
+            {
+                bestMatch = m_LogicHandler.FindTrueLove(m_LogicHandler.LoggedInUser, (user) => true);
+            }
+            else if (isMaleChecked && !isFemaleChecked)
+            {
+                bestMatch = m_LogicHandler.FindTrueLove(m_LogicHandler.LoggedInUser, (user) => user.Gender == User.eGender.male);
+            }
+            else
+            {
+                bestMatch = m_LogicHandler.FindTrueLove(m_LogicHandler.LoggedInUser, (user) => user.Gender == User.eGender.female);
+            }
+
+            BestMatchPictureBox.LoadAsync(bestMatch.PictureNormalURL);
+            BestMatchPictureBox.Refresh();
         }
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 
-namespace FBAppCore
+namespace FBAppCore.ThreadingUtils
 {
     public class ThreadRunner
     {

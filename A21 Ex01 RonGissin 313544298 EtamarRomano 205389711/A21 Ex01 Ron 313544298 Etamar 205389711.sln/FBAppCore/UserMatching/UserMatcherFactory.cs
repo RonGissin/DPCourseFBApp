@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace FBAppCore
+namespace FBAppCore.UserMatching
 {
-    public static class UserMatcherFactory
+    internal static class UserMatcherFactory
     {
         public static IUserMatcher CreateMatcher(eUserMatcherType i_MatcherType) 
         {

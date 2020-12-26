@@ -2,9 +2,9 @@
 using System.Linq;
 using FacebookWrapper.ObjectModel;
 
-namespace FBAppCore
+namespace FBAppCore.UserMatching
 {
-    public class TrueLoveMatcher : IUserMatcher
+    internal class TrueLoveMatcher : IUserMatcher
     {
         public User FindMatch(User i_UserToMatchTo, Func<User, bool> i_FilterFunc)
         {
