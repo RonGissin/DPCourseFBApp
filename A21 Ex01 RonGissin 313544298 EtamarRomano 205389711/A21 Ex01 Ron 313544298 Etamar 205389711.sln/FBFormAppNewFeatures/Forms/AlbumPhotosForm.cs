@@ -15,12 +15,10 @@ namespace FBAppUI.Forms
     {
         private Album m_Album;
         private ImageForm m_ImageForm;
-        private ApplicationLogicHandler m_LogicHandler;
         private ThreadRunner m_ThreadRunner;
 
         public AlbumPhotosForm(Album i_Album)
         {
-            m_LogicHandler = ApplicationLogicHandler.Instance;
             m_Album = InputGuard.CheckNullArgument(i_Album, nameof(i_Album));
             m_ThreadRunner = new ThreadRunner();
             this.Text = m_Album.Name;

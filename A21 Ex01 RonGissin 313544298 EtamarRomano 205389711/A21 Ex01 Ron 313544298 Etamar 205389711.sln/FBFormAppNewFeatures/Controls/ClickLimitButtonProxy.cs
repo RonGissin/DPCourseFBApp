@@ -10,15 +10,15 @@ namespace FBAppUI.Controls
 
         public string PromptMessage { get; set; }
 
-        public int HoursToEnabled { get; set; }
+        public TimeSpan TimeToEnabled { get; set; }
 
         private int m_NumClicks;
 
         public ClickLimitButtonProxy() : base()
         {
-            ClickThreshold = 1;
-            HoursToEnabled = 12;
-            PromptMessage = $"Button Disabled and will be enabled again in {HoursToEnabled} hours. If you wish to have unlimited usage, upgrade to premium.";
+            ClickThreshold = 2;
+            TimeToEnabled = new TimeSpan(0, 0, 15);
+            PromptMessage = $"Button Disabled and will be enabled again in {TimeToEnabled} hours. If you wish to have unlimited usage, upgrade to premium.";
             m_NumClicks = 0;
         }
 
@@ -31,7 +31,9 @@ namespace FBAppUI.Controls
                 m_NumClicks = 0;
                 this.Enabled = false;
                 MessageBox.Show(PromptMessage);
-                Task.Delay(new TimeSpan(HoursToEnabled, 0, 0)).ContinueWith(t => ResetButtonToEnabled());
+                Task.Delay(TimeToEnabled).ContinueWith(t => ResetButtonToEnabled());
+
+                return;
             }
 
             base.OnClick(e);

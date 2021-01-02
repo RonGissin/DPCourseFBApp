@@ -137,6 +137,6 @@ namespace FBAppUI.Forms
         }
 
         private void bindPhotoToBindingSource()
-            => CommentsListBox.Invoke(new Action(() => commentsBindingSource.DataSource = m_Photo));
+            => CommentsListBox.Invoke(new Action(() => commentsBindingSource.DataSource = m_Photo.Comments));
     }
 }

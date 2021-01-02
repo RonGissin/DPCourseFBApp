@@ -60,7 +60,7 @@
             this.ImageCommentBox.Name = "ImageCommentBox";
             this.ImageCommentBox.Size = new System.Drawing.Size(391, 77);
             this.ImageCommentBox.TabIndex = 2;
-            this.ImageCommentBox.Text = "";
+            this.ImageCommentBox.Text = string.Empty;
             this.ImageCommentBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.imageCommentBox_KeyPress);
             // 
             // ImageCommentLabel

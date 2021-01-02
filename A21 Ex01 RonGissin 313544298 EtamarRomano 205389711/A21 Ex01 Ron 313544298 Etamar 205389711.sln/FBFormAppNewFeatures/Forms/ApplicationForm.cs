@@ -169,8 +169,7 @@ namespace FBAppUI.Forms
                 mostLikedPhotoUrl = m_LogicHandler.LoggedInUser.Albums
                 .SelectMany(album => album.Photos)
                 .OrderByDescending(photo => photo.LikedBy.Count())
-                .FirstOrDefault()?
-                .PictureNormalURL;
+                .FirstOrDefault()?.PictureNormalURL;
 
                 MostLikedPhotoPictureBox.Invoke(new Action(() => MostLikedPhotoPictureBox.LoadAsync(mostLikedPhotoUrl)));
             }
