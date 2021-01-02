@@ -31,7 +31,7 @@ namespace FBAppUI.Controls
                 m_NumClicks = 0;
                 this.Enabled = false;
                 MessageBox.Show(PromptMessage);
-                Task.Delay(TimeToEnabled).ContinueWith(t => ResetButtonToEnabled());
+                Task.Delay(TimeToEnabled).ContinueWith(t => resetButtonToEnabled());
 
                 return;
             }
@@ -39,7 +39,7 @@ namespace FBAppUI.Controls
             base.OnClick(e);
         }
 
-        private void ResetButtonToEnabled()
+        private void resetButtonToEnabled()
         {
             this.Invoke(new Action(() => Enabled = true));
         }

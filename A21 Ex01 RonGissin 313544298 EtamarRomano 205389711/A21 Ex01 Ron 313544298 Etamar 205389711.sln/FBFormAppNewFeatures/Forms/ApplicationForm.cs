@@ -178,7 +178,7 @@ namespace FBAppUI.Forms
             }
         }
 
-        private void bestFriendButton_Click(object sender, EventArgs e)
+        private void bestFriendButton_Click(object i_Sender, EventArgs i_EventArgs)
         {
             User bestFriend = m_LogicHandler.FindBestFriend(m_LogicHandler.LoggedInUser, (user) => true);
 
@@ -186,7 +186,7 @@ namespace FBAppUI.Forms
             m_BestFriendForm.ShowDialog();
         }
 
-        private void findLoveButton_Click(object sender, EventArgs e)
+        private void findLoveButton_Click(object i_Sender, EventArgs i_EventArgs)
         {
             User bestMatch;
             bool isMaleChecked = MaleCheckBox.Checked;
