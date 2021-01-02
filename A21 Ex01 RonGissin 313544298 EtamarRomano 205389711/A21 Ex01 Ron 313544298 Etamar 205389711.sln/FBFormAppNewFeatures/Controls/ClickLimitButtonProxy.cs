@@ -6,7 +6,7 @@ namespace FBAppUI.Controls
 {
     public class ClickLimitButtonProxy : Button
     {
-        public int ClickThreshold { get; set; }
+        public int ClickThreshold { get; set; } = 2;
 
         public string PromptMessage { get; set; }
 
@@ -16,7 +16,6 @@ namespace FBAppUI.Controls
 
         public ClickLimitButtonProxy() : base()
         {
-            ClickThreshold = 2;
             TimeToEnabled = new TimeSpan(0, 0, 15);
             PromptMessage = $"Button Disabled and will be enabled again in {TimeToEnabled} hours. If you wish to have unlimited usage, upgrade to premium.";
             m_NumClicks = 0;
@@ -38,7 +37,6 @@ namespace FBAppUI.Controls
 
             base.OnClick(e);
         }
-
         private void resetButtonToEnabled()
         {
             this.Invoke(new Action(() => Enabled = true));
