@@ -1,10 +1,11 @@
-﻿using System;
+﻿using FBAppCore.Validation;
+using System;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace FBAppUI.Controls
 {
-    public class ClickLimitButtonProxy : Button
+    public class ClickLimitButtonDecorator : Button
     {
         public int ClickThreshold { get; set; } = 2;
 
@@ -14,8 +15,11 @@ namespace FBAppUI.Controls
 
         private int m_NumClicks;
 
-        public ClickLimitButtonProxy() : base()
+        private Button m_DecoratedButton;
+
+        public ClickLimitButtonDecorator(Button i_DecoratedButton) : base()
         {
+            m_DecoratedButton = InputGuard.CheckNullArgument(i_DecoratedButton, nameof(i_DecoratedButton));
             TimeToEnabled = new TimeSpan(0, 0, 15);
             PromptMessage = $"Button Disabled and will be enabled again in {TimeToEnabled} hours. If you wish to have unlimited usage, upgrade to premium.";
             m_NumClicks = 0;
@@ -35,8 +39,9 @@ namespace FBAppUI.Controls
                 return;
             }
 
-            base.OnClick(e);
+            m_DecoratedButton.PerformClick();
         }
+
         private void resetButtonToEnabled()
         {
             this.Invoke(new Action(() => Enabled = true));
