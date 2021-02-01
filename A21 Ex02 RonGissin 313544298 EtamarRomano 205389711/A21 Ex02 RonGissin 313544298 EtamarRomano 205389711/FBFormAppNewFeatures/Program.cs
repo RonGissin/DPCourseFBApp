@@ -17,7 +17,7 @@ namespace FBAppUI
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            ApplicationManager applicationManager = new ApplicationManager(loginClient);
+            ApplicationFlowManager applicationManager = new ApplicationFlowManager(loginClient);
 
             applicationManager.RunApplication();
         }

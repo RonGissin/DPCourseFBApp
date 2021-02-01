@@ -44,7 +44,7 @@ namespace FBAppCore
         {
             r_BestFriendMatcher = UserMatcherFactory.CreateMatcher(eUserMatcherType.BestFriendMatcher);
             r_TrueLoveMatcher = UserMatcherFactory.CreateMatcher(eUserMatcherType.TrueLoveMatcher);
-            r_LikeHandler = new LikeHandler();
+            r_LikeHandler = new LikeHandlerCachingDecorator(new LikeHandlerLogUsageDecorator(new LikeHandler(), "like-log.txt"));
         }
 
         public User FindBestFriend(User i_UserToMatchTo, Func<User, bool> i_FilterFunc)

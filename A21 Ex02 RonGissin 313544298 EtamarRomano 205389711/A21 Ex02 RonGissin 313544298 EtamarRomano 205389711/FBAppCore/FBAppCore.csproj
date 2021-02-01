@@ -53,6 +53,11 @@
     <Compile Include="AppSettings\AppSettings.cs" />
     <Compile Include="AppSettings\AppXmlSettingsHandler.cs" />
     <Compile Include="AppSettings\ISettingsFileHandler.cs" />
+    <Compile Include="Likes\LikeHandlerCachingDecorator.cs" />
+    <Compile Include="Logging\ILogger.cs" />
+    <Compile Include="Logging\Logger.cs" />
+    <Compile Include="Likes\LikeHandlerBaseDecorator.cs" />
+    <Compile Include="Likes\LikeHandlerLogUsageDecorator.cs" />
     <Compile Include="UserMatching\BestFriendMatcher.cs" />
     <Compile Include="UserMatching\eUserMatcherType.cs" />
     <Compile Include="IDataInjectable.cs" />

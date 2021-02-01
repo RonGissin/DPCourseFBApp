@@ -17,10 +17,10 @@ namespace FBAppUI.Controls
 
         private Button m_DecoratedButton;
 
-        public ClickLimitButtonDecorator(Button i_DecoratedButton) : base()
+        public ClickLimitButtonDecorator(Button i_DecoratedButton, TimeSpan i_TimeToEnabled) : base()
         {
             m_DecoratedButton = InputGuard.CheckNullArgument(i_DecoratedButton, nameof(i_DecoratedButton));
-            TimeToEnabled = new TimeSpan(0, 0, 15);
+            TimeToEnabled = InputGuard.CheckNullArgument(i_TimeToEnabled, nameof(i_TimeToEnabled));
             PromptMessage = $"Button Disabled and will be enabled again in {TimeToEnabled} hours. If you wish to have unlimited usage, upgrade to premium.";
             m_NumClicks = 0;
         }
@@ -29,7 +29,7 @@ namespace FBAppUI.Controls
         {
             m_NumClicks++;
 
-            if(m_NumClicks == ClickThreshold)
+            if (m_NumClicks == ClickThreshold)
             {
                 m_NumClicks = 0;
                 this.Enabled = false;
@@ -44,7 +44,7 @@ namespace FBAppUI.Controls
 
         private void resetButtonToEnabled()
         {
-            this.Invoke(new Action(() => Enabled = true));
+            m_DecoratedButton.Enabled = true;
         }
     }
 }

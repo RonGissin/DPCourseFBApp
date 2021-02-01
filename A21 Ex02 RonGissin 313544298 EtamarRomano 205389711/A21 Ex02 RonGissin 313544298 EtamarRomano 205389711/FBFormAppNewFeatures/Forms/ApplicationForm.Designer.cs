@@ -49,8 +49,8 @@ namespace FBAppUI.Forms
             this.ProfilePictureBox = new System.Windows.Forms.PictureBox();
             this.HiLoggedUserLabel = new System.Windows.Forms.Label();
             this.HiLabel = new System.Windows.Forms.Label();
-            this.FindLoveButton = new FBAppUI.Controls.ClickLimitButtonDecorator();
-            this.BestFriendButton = new FBAppUI.Controls.ClickLimitButtonDecorator();
+            this.FindLoveButton = new FBAppUI.Controls.ClickLimitButtonProxy();
+            this.BestFriendButton = new FBAppUI.Controls.ClickLimitButtonProxy();
             ((System.ComponentModel.ISupportInitialize)(this.MostLikedPhotoPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BestMatchPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ProfilePictureBox)).BeginInit();
@@ -339,7 +339,7 @@ namespace FBAppUI.Forms
         private System.Windows.Forms.PictureBox ProfilePictureBox;
         private System.Windows.Forms.Label HiLoggedUserLabel;
         private System.Windows.Forms.Label HiLabel;
-        private ClickLimitButtonDecorator FindLoveButton;
-        private ClickLimitButtonDecorator BestFriendButton;
+        private ClickLimitButtonProxy FindLoveButton;
+        private ClickLimitButtonProxy BestFriendButton;
     }
 }

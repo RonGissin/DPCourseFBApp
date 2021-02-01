@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApplicationFlowManager.cs" />
     <Compile Include="ApplicationManager.cs" />
     <Compile Include="Controls\BlinkOnClickButtonDecorator.cs">
       <SubType>Component</SubType>
@@ -59,13 +60,16 @@
     <Compile Include="Controls\ClickLimitButtonDecorator.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controls\ClickLimitButtonProxy.cs" />
+    <Compile Include="Controls\ClickLimitButtonProxy.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\RoundButton.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\TextChangeButtonDecorator.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="FormAppManagerTemplate.cs" />
     <Compile Include="Forms\AlbumPhotosForm.cs">
       <SubType>Form</SubType>
     </Compile>
