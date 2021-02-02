@@ -1,6 +1,6 @@
-﻿using FacebookWrapper.ObjectModel;
+﻿using System;
+using FacebookWrapper.ObjectModel;
 using FBAppCore.Logging;
-using System;
 
 namespace FBAppCore.Likes
 {

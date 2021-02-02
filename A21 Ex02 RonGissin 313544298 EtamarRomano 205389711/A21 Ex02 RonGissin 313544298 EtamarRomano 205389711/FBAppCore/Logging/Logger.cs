@@ -1,36 +1,33 @@
-﻿using FBAppCore.Logging;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using FBAppCore.Logging;
 
 namespace FBAppCore
 {
     public class Logger : ILogger
     {
-        private const string _kErrorSeverity = "Error";
-        private const string _kInfoSeverity = "Info";
-        private const string _kWarnSeverity = "Warning";
+        private const string k_ErrorSeverity = "Error";
+        private const string k_InfoSeverity = "Info";
+        private const string k_WarnSeverity = "Warning";
+        private const string k_DefaultLogFilePath = "LikeHandlerLog.txt";
         private string m_LogFilePath;
         
         private Logger(string i_LogFilePath = null)
         {
-            m_LogFilePath = i_LogFilePath ?? string.Empty;
+            m_LogFilePath = i_LogFilePath ?? k_DefaultLogFilePath;
         }
 
         public static ILogger Create(string i_LogFilePath = null)
             => new Logger(i_LogFilePath);
 
         public void LogError(string i_Message)
-            => Log(_kErrorSeverity, i_Message);
+            => Log(k_ErrorSeverity, i_Message);
 
         public void LogInfo(string i_Message)
-            => Log(_kInfoSeverity, i_Message);
+            => Log(k_InfoSeverity, i_Message);
 
         public void LogWarn(string i_Message)
-            => Log(_kWarnSeverity, i_Message);
+            => Log(k_WarnSeverity, i_Message);
 
         private void Log(string i_Severity, string i_LogMessage)
         {

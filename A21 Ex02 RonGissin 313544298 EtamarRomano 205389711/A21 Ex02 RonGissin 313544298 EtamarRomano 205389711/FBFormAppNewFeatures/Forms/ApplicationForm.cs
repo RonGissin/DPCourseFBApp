@@ -40,7 +40,6 @@ namespace FBAppUI.Forms
             InitializeComponent();
             CenterToScreen();
             setFormViewBySettings();
-            // InitDecoratedButton();
         }
 
         public void InjectData()
@@ -216,23 +215,6 @@ namespace FBAppUI.Forms
 
             BestMatchPictureBox.LoadAsync(bestMatch.PictureNormalURL);
             BestMatchPictureBox.Refresh();
-        }
-
-        private void InitDecoratedButton()
-        {
-            TimeSpan specialFeatureButtonTimeSpan = new TimeSpan(0, 0, 15);
-
-            m_BestFriendButton = new TextChangeButtonDecorator(
-                new BlinkOnClickButtonDecorator(
-                    new ClickLimitButtonDecorator(
-                        new Button(), specialFeatureButtonTimeSpan),
-                    specialFeatureButtonTimeSpan, Color.Red),
-                specialFeatureButtonTimeSpan, "Finding friend..");
-
-            m_BestFriendButton.Location = new Point(320, 340);
-            m_BestFriendButton.BackColor = Color.LightYellow;
-            m_BestFriendButton.Size = new Size(135, 48);
-            this.Controls.Add(m_BestFriendButton);
         }
     }
 }
