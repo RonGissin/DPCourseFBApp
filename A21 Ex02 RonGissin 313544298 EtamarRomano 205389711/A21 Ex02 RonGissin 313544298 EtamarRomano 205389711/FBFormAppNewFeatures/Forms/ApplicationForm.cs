@@ -11,7 +11,6 @@ using FBAppCore.AppSettings;
 using FBAppCore.Login;
 using FBAppCore.ThreadingUtils;
 using FBAppCore.Validation;
-using FBAppUI.Controls;
 
 namespace FBAppUI.Forms
 {
@@ -20,7 +19,6 @@ namespace FBAppUI.Forms
         private const string k_SettingsNotSavedMessage = "Your settings couldn't be saved for some reason.. you will have to reconnect next time !";
         private AlbumPhotosForm m_AlbumPhotosForm;
         private BestFriendForm m_BestFriendForm;
-        private Button m_BestFriendButton;
         private AppSettings m_AppSettings;
         private string m_LastAccessToken;
         private ISettingsFileHandler m_SettingsHandler;

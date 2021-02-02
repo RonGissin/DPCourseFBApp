@@ -95,7 +95,7 @@ namespace FBAppUI.Forms
             {
                 totalAlbumLikes = m_Album.Photos.Select(photo => photo.LikedBy.Count()).Sum();
             }
-            catch (Facebook.FacebookApiException exception)
+            catch 
             {
             }
 
@@ -108,7 +108,7 @@ namespace FBAppUI.Forms
             {
                 AlbumPhotosListView.Invoke(new Action(() => AlbumPhotosListView.SetGrid(m_Album.Photos)));
             }
-            catch (Facebook.FacebookApiException exception)
+            catch
             {
             }
 
