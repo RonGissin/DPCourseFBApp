@@ -10,14 +10,14 @@ namespace FBAppUI
 {
     public class ApplicationManager : FormAppManagerTemplate
     {
-        private ILoginClient m_loginClient;
+        private readonly ILoginClient r_loginClient;
         private LoginForm m_LoginForm;
         private ApplicationForm m_ApplicationForm;
         private AppSettings m_AppSettings;
 
         public ApplicationManager(ILoginClient i_LoginClient)
         {
-            m_loginClient = InputGuard.CheckNullArgument(i_LoginClient, nameof(i_LoginClient));
+            r_loginClient = InputGuard.CheckNullArgument(i_LoginClient, nameof(i_LoginClient));
 
             try
             {
@@ -54,7 +54,7 @@ namespace FBAppUI
 
         private LoginResultData connectWithLastUser()
         {
-            LoginResult loginResult = m_loginClient.Connect(m_AppSettings.LastAccessToken);
+            LoginResult loginResult = r_loginClient.Connect(m_AppSettings.LastAccessToken);
 
             return new LoginResultData
             {
@@ -70,7 +70,7 @@ namespace FBAppUI
 
             while (dialogResult == DialogResult.Retry)
             {
-                m_LoginForm = new LoginForm(m_loginClient);
+                m_LoginForm = new LoginForm(r_loginClient);
                 dialogResult = m_LoginForm.ShowDialog();
                 m_LoginForm.Dispose();
             }

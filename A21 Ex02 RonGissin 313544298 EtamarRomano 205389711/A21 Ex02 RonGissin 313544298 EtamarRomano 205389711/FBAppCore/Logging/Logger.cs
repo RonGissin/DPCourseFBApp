@@ -10,11 +10,11 @@ namespace FBAppCore
         private const string k_InfoSeverity = "Info";
         private const string k_WarnSeverity = "Warning";
         private const string k_DefaultLogFilePath = "LikeHandlerLog.txt";
-        private string m_LogFilePath;
+        private readonly string r_LogFilePath;
         
         private Logger(string i_LogFilePath = null)
         {
-            m_LogFilePath = i_LogFilePath ?? k_DefaultLogFilePath;
+            r_LogFilePath = i_LogFilePath ?? k_DefaultLogFilePath;
         }
 
         public static ILogger Create(string i_LogFilePath = null)
@@ -31,7 +31,7 @@ namespace FBAppCore
 
         private void Log(string i_Severity, string i_LogMessage)
         {
-            using (StreamWriter writer = File.AppendText(m_LogFilePath))
+            using (StreamWriter writer = File.AppendText(r_LogFilePath))
             {
                 writer.Write($"\r\n{i_Severity} : ");
                 writer.WriteLine($"{DateTime.Now.ToLongTimeString()} {DateTime.Now.ToLongDateString()}");

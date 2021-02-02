@@ -89,14 +89,29 @@ namespace FBAppUI.Forms
 
         private void showAlbumLikes()
         {
-            int totalAlbumLikes = m_Album.Photos.Select(photo => photo.LikedBy.Count()).Sum();
+            int totalAlbumLikes = 0;
+
+            try
+            {
+                totalAlbumLikes = m_Album.Photos.Select(photo => photo.LikedBy.Count()).Sum();
+            }
+            catch (Facebook.FacebookApiException exception)
+            {
+            }
 
             NumAlbumLikesLabel.Invoke(new Action(() => NumAlbumLikesLabel.Text = totalAlbumLikes.ToString()));
         }
 
         private void setAlbumToShow()
         {
-            AlbumPhotosListView.Invoke(new Action(() => AlbumPhotosListView.SetGrid(m_Album.Photos)));
+            try
+            {
+                AlbumPhotosListView.Invoke(new Action(() => AlbumPhotosListView.SetGrid(m_Album.Photos)));
+            }
+            catch (Facebook.FacebookApiException exception)
+            {
+            }
+
             this.Invoke(new Action(() => Text = m_Album.Name));
         }
 
